@@ -33,7 +33,6 @@ typedef NS_ENUM(NSInteger, JYVideoCameraBotomBarViewAction) {
 @property (nonatomic, copy) void (^bottomBarAction)(UIButton *button);
 @property (nonatomic, assign) BOOL isRecording;
 @property (nonatomic, assign) JYVideoCameraBotomBarViewAction currentActon;
-
 /**
  是否隐藏删除按钮
 

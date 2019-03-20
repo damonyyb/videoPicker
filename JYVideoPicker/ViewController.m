@@ -27,9 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationController setNavigationBarHidden:YES];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self clickOKBtn];
-    });
+
 }
 
 -(void)clickBackHome
@@ -39,7 +37,11 @@
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self clickOKBtn];
+}
 -(void)clickOKBtn
 {
     [_configBit resignFirstResponder];

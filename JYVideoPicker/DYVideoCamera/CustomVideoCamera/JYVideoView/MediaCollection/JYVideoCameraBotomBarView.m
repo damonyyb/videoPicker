@@ -19,6 +19,9 @@
 @property (nonatomic, strong) UIView *sliederView;
 ///白色背景
 @property (nonatomic, strong) UIView *whiteBgView;
+///录制背景圆圈
+@property (nonatomic, strong) UIView *recordBtnBgView;
+
 
 
 @end
@@ -40,25 +43,39 @@
     //添加蒙层
     [self addCoverView];
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    //录制背景
+    _recordBtnBgView = [UIView new];
+    [self addSubview:_recordBtnBgView];
+    [_recordBtnBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(0);
+        make.top.mas_equalTo(15);
+        make.width.height.mas_equalTo(62);
+    }];
+    _recordBtnBgView.layer.masksToBounds = YES;
+    _recordBtnBgView.layer.borderColor = [UIColor whiteColor].CGColor;
+    _recordBtnBgView.layer.borderWidth = 1;
+    _recordBtnBgView.layer.cornerRadius = 31;
+    
     //录制
     _recordBtn = [self createButtonWithImage:@"" title:@""];
     [self addSubview:_recordBtn];
     _recordBtn.tag = JYVideoCameraBotomBarViewAction_record;
     _recordBtn.backgroundColor = [UIColor colorWithHexString:@"#F22B3C"];
     _recordBtn.layer.masksToBounds = YES;
-    _recordBtn.layer.cornerRadius = 31;
+    _recordBtn.layer.cornerRadius = 23.5;
     [_recordBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(0);
-        make.top.mas_equalTo(15);
-        make.width.height.mas_equalTo(62);
+        make.center.mas_equalTo(self.recordBtnBgView);
+        make.width.height.mas_equalTo(47);
     }];
+    
+    
     //取消/美化
     _cancelBtn = [self createButtonWithImage:@"beauty" title:@""];
     [self addSubview:_cancelBtn];
     _cancelBtn.tag = JYVideoCameraBotomBarViewAction_beauty;
     [_cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(-2*screenWidth/6);
-        make.centerY.mas_equalTo(_recordBtn.mas_centerY);
+        make.centerY.mas_equalTo(self.recordBtnBgView.mas_centerY);
         
     }];
     //删除/分段/拍照美化
@@ -67,7 +84,7 @@
     _delBtn.tag = JYVideoCameraBotomBarViewAction_subsection;
     [_delBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(screenWidth*2/7);
-        make.centerY.mas_equalTo(_recordBtn.mas_centerY);
+        make.centerY.mas_equalTo(self.recordBtnBgView.mas_centerY);
     }];
     //添加底部按钮
     [self addBottomButtons];
@@ -233,6 +250,7 @@
         case JYVideoCameraBotomBarViewAction_record://录制/拍照
         {
             [self removeCoverView];
+            sender.selected = !sender.isSelected;
             self.isRecording =  sender.selected;
             [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
             [_cancelBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
@@ -240,16 +258,25 @@
             [_delBtn setImage:[UIImage imageNamed:@"deleteVideo"] forState:UIControlStateNormal];
             self.cancelBtn.tag = JYVideoCameraBotomBarViewAction_cancel;
             self.delBtn.tag = JYVideoCameraBotomBarViewAction_delete;
-            if (self.isRecording) {
-                [UIView animateWithDuration:0.3 animations:^{
-                    self.recordBtn.layer.cornerRadius = 5;
-                }];
-                
-            }else{
-                [UIView animateWithDuration:0.3 animations:^{
-                   self.recordBtn.layer.cornerRadius = self.recordBtn.frame.size.height/2;
-                }];
-            }
+//            if (self.isRecording) {
+//
+//                [UIView animateWithDuration:0.3 animations:^{
+//                    self.recordBtn.layer.cornerRadius = 5;
+//                    [self.recordBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+//                        make.center.mas_equalTo(self.recordBtnBgView);
+//                        make.width.height.mas_equalTo(32);
+//                    }];
+//                }];
+//
+//            }else{
+//                [UIView animateWithDuration:0.3 animations:^{
+//                   self.recordBtn.layer.cornerRadius = 23.5;
+//                    [self.recordBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+//                        make.center.mas_equalTo(self.recordBtnBgView);
+//                        make.width.height.mas_equalTo(47);
+//                    }];
+//                }];
+//            }
             
         }
             break;
@@ -260,7 +287,8 @@
             break;
         case JYVideoCameraBotomBarViewAction_subsection://分段
         {
-            if (self.currentActon == JYVideoCameraBotomBarViewAction_takePhoto) {
+            if (self.currentActon == JYVideoCameraBotomBarViewAction_video) {
+                
             }
         }
             break;

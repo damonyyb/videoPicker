@@ -363,16 +363,7 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
     self.faceView.hidden = YES;
     [self addSubview:self.faceView];
 
-    //完成录制
-    _finishRecordButton  = [[UIButton alloc] init];
-    _finishRecordButton.hidden = YES;
-    [_finishRecordButton setImage:[UIImage imageNamed:@"next"] forState:UIControlStateNormal];
-    [_finishRecordButton addTarget:self action:@selector(stopRecording:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:_finishRecordButton];
-    [_finishRecordButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(20);
-        make.right.mas_equalTo(-20);
-    }];
+    
     //进度条
     progressPreView = [[UIView alloc]initWithFrame:CGRectMake(0, 0 , 0, 4)];
     progressPreView.backgroundColor = [UIColor colorWithHexString:@"#F22B3C"];
@@ -598,7 +589,7 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
             [self.bottomBar setNormalState];
         }
         if (currentTime < 3) {
-            _finishRecordButton.hidden = YES;
+            self.finishRecordButton.hidden = YES;
         }
     }
     [self.videoCollectionView updateConfigWithTime:currentTime];
@@ -874,16 +865,12 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
     if (!self.videoCollectionView.config) {
         self.videoCollectionView.config = [JYVideoConfigModel new];
     }
-    if (self.bottomBar.currentActon == JYVideoCameraBotomBarViewAction_takePhoto) {
-         [self.bottomBar updateRecordButtonTitle:currentTime];
-    }
     [self.videoCollectionView updateConfigWithTime:currentTime];
    
     float progressWidth = progressPreView.frame.size.width+progressStep;
     [progressPreView setFrame:CGRectMake(0, 0, progressWidth, 4)];
     if (currentTime>3) {
-        _finishRecordButton.hidden = NO;
-//        [self bringSubviewToFront:self.finishRecordButton];
+        self.finishRecordButton.hidden = NO;
     }
     
     //时间到了停止录制视频
@@ -892,6 +879,8 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
         [self stopRecording:nil];
     }
     if (self.bottomSubsectionView.config.isSubsection) {
+        //更新录制按钮上的文字
+        [self.bottomBar updateRecordButtonTitle:currentTime];
         float subsectionTime = self.bottomSubsectionView.config.totlalSeconds/self.bottomSubsectionView.config.totlalSubsection;
         if (currentTime >= subsectionTime*(urlArray.count+1)) {
             [self.bottomBar pauseRecord];
@@ -1255,7 +1244,6 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
                 case JYVideoCameraBotomBarViewAction_subsection://分段
                 {
                     weakSelf.bottomSubsectionView.hidden = NO;
-//                    [weakSelf bringSubviewToFront:weakSelf.bottomSubsectionView];
                 }
                     break;
                 case JYVideoCameraBotomBarViewAction_album://从相册选择视频/照片
@@ -1553,6 +1541,22 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
         };
     }
     return _beautysliderView;
+}
+- (UIButton *)finishRecordButton
+{
+    if (!_finishRecordButton) {
+        //完成录制
+        _finishRecordButton  = [[UIButton alloc] init];
+        _finishRecordButton.hidden = YES;
+        [_finishRecordButton setImage:[UIImage imageNamed:@"next"] forState:UIControlStateNormal];
+        [_finishRecordButton addTarget:self action:@selector(stopRecording:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_finishRecordButton];
+        [_finishRecordButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(20);
+            make.right.mas_equalTo(-20);
+        }];
+    }
+    return _finishRecordButton;
 }
 @end
 

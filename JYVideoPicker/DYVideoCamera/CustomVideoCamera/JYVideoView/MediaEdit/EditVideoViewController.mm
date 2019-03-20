@@ -181,7 +181,6 @@ typedef NS_ENUM(NSUInteger , choseType)
     //视频view
     _filterView = [[GPUImageView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, 300)];
     
-    mainPlayer = [[AVPlayer alloc] init];
     //判断是视频还是图片
     if (self.image) {
         
@@ -195,7 +194,8 @@ typedef NS_ENUM(NSUInteger , choseType)
         [_showPicture processImage];
         
         [self.view addSubview:self.filterView];
-    }else if (self.videoModelArray.firstObject.modelType == JYModelType_photo){
+    }else{
+        mainPlayer = [[AVPlayer alloc] init];
         playerItem = [[AVPlayerItem alloc] initWithURL:self.videoModelArray.firstObject.videoModel.fileURL];
         self.seletedURL = self.videoModelArray.firstObject.videoModel.videoURL;
         [mainPlayer replaceCurrentItemWithPlayerItem:playerItem];
@@ -209,6 +209,7 @@ typedef NS_ENUM(NSUInteger , choseType)
         _filtClassName = @"LFGPUImageEmptyFilter";
         [movieFile addTarget:filter];
         [filter addTarget:_filterView];
+        [self.view addSubview:self.filterView];
     }
     
     _bgImageView = [[UIImageView alloc] init];
@@ -225,7 +226,7 @@ typedef NS_ENUM(NSUInteger , choseType)
     PlayImge.image = [UIImage imageNamed:@"播放按钮-1"];
     [_bgImageView addSubview:PlayImge];
     [PlayImge mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(_bgImageView);
+        make.center.equalTo(self.bgImageView);
         make.width.height.equalTo(@(SCREEN_LayoutScaleBaseOnIPHEN6(60)));
     }];
     
