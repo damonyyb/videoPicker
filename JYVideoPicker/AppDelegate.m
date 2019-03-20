@@ -5,7 +5,7 @@
 //  Created by Joblee on 2019/3/20.
 //  Copyright © 2019年 jiuyu. All rights reserved.
 //
-
+#import "ViewController.h"
 #import "AppDelegate.h"
 
 @interface AppDelegate ()
@@ -16,6 +16,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+    [self.window makeKeyAndVisible];
+    ViewController *vc = [[ViewController alloc]init];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+    self.window.rootViewController = nav;
+
     // Override point for customization after application launch.
     return YES;
 }
