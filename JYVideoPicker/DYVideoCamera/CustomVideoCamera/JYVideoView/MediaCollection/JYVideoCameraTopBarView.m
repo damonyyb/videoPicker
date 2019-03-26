@@ -8,6 +8,7 @@
 
 #import "JYVideoCameraTopBarView.h"
 #import "Masonry.h"
+#import "UIButton+JYCustomLayout.h"
 #define buttonTag 100
 @interface JYVideoCameraTopBarView()
 @property (nonatomic, strong) UIView *containView;
@@ -44,11 +45,19 @@
                 make.top.mas_equalTo(17);
                 make.right.mas_equalTo(-17);
             }];
-        }else{
+        }
+        else{
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(17);
                 make.centerX.mas_equalTo(self.mas_centerX).mas_offset(-22-33+(22+33)*(i-1));
             }];
+        }
+        if (i == 1) {
+            [btn setTitle:self.titleArray[i] forState:UIControlStateNormal];
+            [btn.titleLabel setFont:[UIFont systemFontOfSize:7]];
+            btn.layer.borderWidth = 1;
+            btn.layer.borderColor = [UIColor whiteColor].CGColor;
+            btn.layer.cornerRadius = 4;
         }
         t = i;
     }
@@ -76,13 +85,16 @@
         [btn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(17);
             make.centerX.mas_equalTo(-2*screenWidth/6+(2*screenWidth/6)*(i-t-1));
+            make.height.mas_equalTo(50);
             make.bottom.mas_equalTo(-17);
         }];
+        [btn layoutButtonWithButtonLaoutStyle:JYButtonLaoutStyle_Top space:10];
     }
 }
 
 - (void)updateUIWithVideoRcordState:(JYVideoRecordState)state
 {
+    self.state = state;
     if (state == JYVideoRecordState_recording) {
         
     }else if (state == JYVideoRecordState_pauseRecord){
@@ -117,13 +129,13 @@
 - (NSArray *)titleArray
 {
     if (!_titleArray) {
-        _titleArray = @[@"返回",@"尺寸",@"分段",@"更多",@"闪光灯",@"倒计时",@"网格"];
+        _titleArray = @[@"返回",@"16:9",@"分段",@"更多",@"闪光灯",@"倒计时",@"网格"];
     }
     return _titleArray;
 }
 -(NSArray *)imageArray
 {
-    return @[@"back",@"scale",@"exchange",@"more",@"light",@"timer",@"more"];
+    return @[@"back",@"",@"exchange",@"more",@"light",@"timer",@"more"];
 }
 - (void)isChangeImageToWhiteColor:(BOOL)isWihteColor
 {

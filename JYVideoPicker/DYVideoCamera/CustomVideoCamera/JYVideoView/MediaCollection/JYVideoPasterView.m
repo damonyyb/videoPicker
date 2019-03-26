@@ -12,20 +12,21 @@
 #import "JYVideoImageCell.h"
 #import "UIView+Tools.h"
 #import "UIColor+JYHex.h"
+#import "JYCustomCollectionView.h"
+
 #define kFilterCellID @"filterCellID"
 #define kStickerCellID @"stickerCellID"
-@interface JYVideoPasterView ()<UICollectionViewDelegate,UICollectionViewDataSource>
-@property (nonatomic ,strong) UICollectionView *pasterCollectionView;
+@interface JYVideoPasterView ()
 @property (nonatomic, assign) CGFloat selfHeight;
 ///蒙层
 @property (nonatomic, strong) UIVisualEffectView *visualView;
 ///标题
 @property (nonatomic, strong) UILabel *titleLab;
-///布局
-@property (nonatomic, strong) UICollectionViewFlowLayout* layout;
+
 ///横线
 @property (nonatomic, strong) UIView *lineView;
 
+@property (nonatomic, strong) JYCustomCollectionView *collectionView;
 
 
 
@@ -41,77 +42,21 @@
     return self;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    switch (self.style) {
-        case JYVideoPasterViewStyle_filter:
-        {
-            return self.filterModelArray.count;
-        }
-            break;
-        case JYVideoPasterViewStyle_Paster:
-        {
-            return self.stickersModelArray.count;
-        }
-            break;
-        default:
-            return 0;
-            break;
-    }
-}
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-    switch (self.style) {
-        case JYVideoPasterViewStyle_filter:
-            {
-                JYVideoCommonCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kFilterCellID forIndexPath:indexPath];
-                FilterModel *model = self.filterModelArray[indexPath.row];
-                cell.nameLabel.text = model.name;
-                cell.iconImgView.image = [UIImage imageWithContentsOfFile:model.iconPath];
-                if (model.isSelected) {
-                    [cell.iconImgView makeCornerRadius:30 borderColor:[UIColor redColor] borderWidth:1];
-                }else{
-                    [cell.iconImgView makeCornerRadius:30 borderColor:nil borderWidth:0];
-                }
-                return cell;
-            }
-            break;
-        default:
-        {
-            JYVideoImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kStickerCellID forIndexPath:indexPath];
-            StickersModel *model = self.stickersModelArray[indexPath.row];
-            cell.iconImgView.image = [UIImage imageWithContentsOfFile:model.stickersImgPaht];
-            if (model.isSelected) {
-                [cell.iconImgView makeCornerRadius:30 borderColor:[UIColor redColor] borderWidth:1];
-            }else{
-                [cell.iconImgView makeCornerRadius:30 borderColor:[UIColor colorWithWhite:1.0 alpha:0.2] borderWidth:1];
-            }
-            return cell;
-        }
-            break;
-    }
 
-}
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    self.videoPasterViewBlock(indexPath);
-}
+
 - (void)setupWithStyle:(JYVideoPasterViewStyle)style dataSource:(id)dataSource
 {
-    self.style = style;
+    [self.collectionView setupWithStyle:style dataSource:dataSource];
     switch (style) {
-        case JYVideoPasterViewStyle_filter:
+            case JYVideoPasterViewStyle_filter:
         {
             self.selfHeight = 110;
-            self.filterModelArray = dataSource;
         }
             break;
-        case JYVideoPasterViewStyle_Paster:
+            case JYVideoPasterViewStyle_Paster:
         {
             self.selfHeight = 200;
-            self.stickersModelArray = dataSource;
         }
             break;
         default:
@@ -121,7 +66,7 @@
     [self addTitleLab];
     
     //添加collectionview
-    [self.pasterCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.titleLab.mas_bottom);
         make.left.bottom.right.mas_equalTo(0);
         make.height.mas_equalTo(self.selfHeight);
@@ -133,7 +78,7 @@
 #pragma mark -- reloadCollectionView
 -(void)reloadCollectionView
 {
-    [self.pasterCollectionView reloadData];
+    [self.collectionView reloadData];
 }
 - (void)changeBackgroundColor:(UIColor *)color
 {
@@ -199,67 +144,16 @@
     }
     return _visualView;
 }
--(UICollectionViewFlowLayout *)layout
+-(JYCustomCollectionView *)collectionView
 {
-    if (!_layout) {
-        _layout = [[UICollectionViewFlowLayout alloc] init];
-        switch (self.style) {
-            case JYVideoPasterViewStyle_filter:
-                {
-                    _layout.estimatedItemSize = CGSizeMake(60, 100);
-                    //设置垂直间距
-                    _layout.minimumLineSpacing = 22;
-                    //水平滚动
-                    _layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-                }
-                break;
-                
-            case JYVideoPasterViewStyle_Paster:
-            {
-                _layout.estimatedItemSize = CGSizeMake(60, 60);
-                //设置垂直间距
-                _layout.minimumLineSpacing = 10;
-                //水平滚动
-                _layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-            }
-                break;
-            default:
-                break;
-        }
-        
-        // 设置额外滚动区域
-        _layout.sectionInset = UIEdgeInsetsMake(10, 20, 10, 20);
-        // 设置cell间距
-        //设置水平间距, 注意点:系统可能会跳转(计算不准确)
-        
+    if (!_collectionView) {
+        kWeakSelf
+        _collectionView = [JYCustomCollectionView new];
+        _collectionView.videoPasterViewBlock = ^(NSIndexPath * _Nonnull indexPath) {
+            weakSelf.videoPasterViewBlock(indexPath);
+        };
+        [self addSubview:_collectionView];
     }
-    return _layout;
-}
-- (UICollectionView *)pasterCollectionView
-{
-    if (!_pasterCollectionView) {
-        _pasterCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, 100, 100) collectionViewLayout:self.layout];
-        
-        //设置背景颜色
-        _pasterCollectionView.backgroundColor = [UIColor clearColor];
-        
-        
-        // 设置数据源,展示数据
-        _pasterCollectionView.dataSource = self;
-        //设置代理,监听
-        _pasterCollectionView.delegate = self;
-        
-        // 注册cell
-        [_pasterCollectionView registerClass:[JYVideoCommonCell class] forCellWithReuseIdentifier:kFilterCellID];
-        [_pasterCollectionView registerClass:[JYVideoImageCell class] forCellWithReuseIdentifier:kStickerCellID];
-        /* 设置UICollectionView的属性 */
-        //设置滚动条
-        _pasterCollectionView.showsHorizontalScrollIndicator = NO;
-        _pasterCollectionView.showsVerticalScrollIndicator = NO;
-        [self addSubview:_pasterCollectionView];
-        
-        
-    }
-    return _pasterCollectionView;
+    return _collectionView;
 }
 @end

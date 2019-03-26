@@ -66,7 +66,7 @@ typedef NS_ENUM(NSInteger, JYVideoCameraBotomBarViewAction) {
 /**
  更新录制按钮标题，显示
  */
-- (void)updateRecordButtonTitle:(float)second;
+- (void)updateRecordButtonTitle:(float)second totalSecondPerSubsection:(float)totalSecondPerSubsection;
 
 /**
  重设为摄像状态

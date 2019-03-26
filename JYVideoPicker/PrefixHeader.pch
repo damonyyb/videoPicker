@@ -1,0 +1,19 @@
+//
+//  PrefixHeader.pch
+//  JYVideoPicker
+//
+//  Created by Joblee on 2019/3/21.
+//  Copyright © 2019年 jiuyu. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+#import <Foundation/Foundation.h>
+#import "JYENUM.h"
+#import "UIView+Tools.h"
+#import "JYVieodPickerMacro.h"
+#import "VideoManager.h"
+#import "JYPointSideButton.h"
+#import "Masonry.h"
+#import "UIColor+JYHex.h"
+#endif /* PrefixHeader_pch */

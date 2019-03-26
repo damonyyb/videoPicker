@@ -11,12 +11,6 @@
 #import "FilterModel.h"
 #import "StickersModel.h"
 NS_ASSUME_NONNULL_BEGIN
-typedef NS_ENUM(NSInteger,JYVideoPasterViewStyle) {
-    JYVideoPasterViewStyle_Paster,
-    JYVideoPasterViewStyle_filter,
-    JYVideoPasterViewStyle_videoEdit
-};
-
 @interface JYVideoPasterView : UIView
 @property (nonatomic, strong) NSArray <FilterModel *>*filterModelArray;
 @property (nonatomic, strong) NSArray <StickersModel *>*stickersModelArray;

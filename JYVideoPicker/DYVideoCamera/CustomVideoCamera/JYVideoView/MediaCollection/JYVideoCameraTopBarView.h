@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, JYVideoRecordState) {
 @property (nonatomic, copy) void (^topbarActon)(UIButton *button);
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) NSArray *imageArray;
-
+@property (nonatomic, assign) JYVideoRecordState state;
 
 /**
  是否改成白色图片

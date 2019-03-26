@@ -10,6 +10,7 @@
 #import "Masonry.h"
 @interface JYVideoRecordSliderView()
 @property (nonatomic, strong) UISlider *sbuffingSlider;
+@property (nonatomic, strong) UISlider *skinWhiteningSlider;
 @property (nonatomic, strong) UILabel *sbuffingLab;
 @property (nonatomic, strong) UILabel *skinWhiteningLab;
 
@@ -48,7 +49,7 @@
         make.left.mas_equalTo(sbuffingLab.mas_right).mas_offset(20);
         make.right.mas_equalTo(-20);
     }];
-    [_sbuffingSlider addTarget:self action:@selector(updateSbuffingValue:) forControlEvents:UIControlEventValueChanged];
+    [_sbuffingSlider addTarget:self action:@selector(updateSbuffingValue) forControlEvents:UIControlEventValueChanged];
     //美白label
     UILabel *skinWhiteningLab = [UILabel new];
     [self addSubview:skinWhiteningLab];
@@ -69,8 +70,8 @@
         make.left.mas_equalTo(skinWhiteningLab.mas_right).mas_offset(20);
         make.right.mas_equalTo(self.sbuffingSlider.mas_right);
     }];
-    [skinWhiteningSlider addTarget:self action:@selector(updateSkinWhiteningValue:) forControlEvents:UIControlEventValueChanged];
-    
+    [skinWhiteningSlider addTarget:self action:@selector(updateSkinWhiteningValue) forControlEvents:UIControlEventValueChanged];
+    self.skinWhiteningSlider = skinWhiteningSlider;
     _sbuffingSlider.value = skinWhiteningSlider.value = 0.5;
     
     _sbuffingSlider.tintColor = skinWhiteningSlider.tintColor = [UIColor redColor];
@@ -81,16 +82,24 @@
 }
 #pragma mark -- 更新磨皮效果
 
-- (void)updateSbuffingValue:(UISlider *)sender
+- (void)updateSbuffingValue
 {
-    self.updateSbuffingValue(sender.value);
-    self.beautySliderValue = sender.value;
+    self.updateSbuffingValueBlock(self.sbuffingSlider.value-0.3);
+    self.beautySliderValue = self.sbuffingSlider.value;
 }
-
+- (void)updateSbuffingValueWithValue:(float)value
+{
+    self.sbuffingSlider.value = value;
+    [self updateSbuffingValue];
+}
 #pragma mark -- 更新美白效果
-- (void)updateSkinWhiteningValue:(UISlider *)sender
+- (void)updateSkinWhiteningValue
 {
-    self.updateSkinWhiteningValue(sender.value);
+    self.updateSkinWhiteningValueBlock(self.skinWhiteningSlider.value-0.3);
 }
-
+- (void)updateSkinWhiteningValueWithValue:(float)value
+{
+    self.skinWhiteningSlider.value = value;
+    [self updateSkinWhiteningValue];
+}
 @end

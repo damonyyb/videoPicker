@@ -10,5 +10,5 @@ target 'JYVideoPicker' do
     pod 'MJRefresh'
     pod 'TZImagePickerController'
     pod 'HXPhotoPicker', '~> 2.2.5'
-
+    
 end

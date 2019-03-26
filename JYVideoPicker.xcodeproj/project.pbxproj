@@ -499,6 +499,23 @@
 		156E2F76224229AD00C365A6 /* GPUImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 156E2D85224229AC00C365A6 /* GPUImageView.m */; };
 		156E2F7D22422FE000C365A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 156E2F7922422FDF00C365A6 /* LaunchScreen.storyboard */; };
 		156E2F7E22422FE000C365A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 156E2F7B22422FDF00C365A6 /* Main.storyboard */; };
+		156E2F872242555D00C365A6 /* JYCutPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 156E2F862242555D00C365A6 /* JYCutPhotoViewController.m */; };
+		156E2F8B22425BEF00C365A6 /* JYNavingationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 156E2F8A22425BEF00C365A6 /* JYNavingationBar.m */; };
+		156E2F8F2243218600C365A6 /* backPhoto@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 156E2F8C2243218600C365A6 /* backPhoto@3x.png */; };
+		156E2F902243218600C365A6 /* backPhoto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 156E2F8D2243218600C365A6 /* backPhoto@2x.png */; };
+		156E2F912243218600C365A6 /* backPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 156E2F8E2243218600C365A6 /* backPhoto.png */; };
+		156E2F9522437C8100C365A6 /* JYEditImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 156E2F9422437C8100C365A6 /* JYEditImageViewController.m */; };
+		156E2F982243839F00C365A6 /* JYPhotoBeautyBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 156E2F972243839F00C365A6 /* JYPhotoBeautyBottomView.m */; };
+		156E2F9E2243868300C365A6 /* JYPointSideButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 156E2F9B2243868200C365A6 /* JYPointSideButton.m */; };
+		156E2F9F2243868300C365A6 /* UIButton+JYCustomLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 156E2F9D2243868200C365A6 /* UIButton+JYCustomLayout.m */; };
+		156E2FA22243BD9000C365A6 /* JYCustomCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 156E2FA12243BD9000C365A6 /* JYCustomCollectionView.m */; };
+		15AB4B442244C43F00D58D10 /* JYPhotoConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B432244C43F00D58D10 /* JYPhotoConfigModel.m */; };
+		15AB4B472248720E00D58D10 /* JYEditImageFilterAndBeautyBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B462248720E00D58D10 /* JYEditImageFilterAndBeautyBottomView.m */; };
+		15AB4B4A2248C23100D58D10 /* JYImageCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B492248C23100D58D10 /* JYImageCollectionView.m */; };
+		15AB4B4D2248C79100D58D10 /* JYPhotoCropBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B4C2248C79100D58D10 /* JYPhotoCropBottomView.m */; };
+		15AB4B502249C8B800D58D10 /* UIImage+JYRotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B4F2249C8B800D58D10 /* UIImage+JYRotate.m */; };
+		15AB4B532249CBBF00D58D10 /* UIImage+JYCropImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B522249CBBF00D58D10 /* UIImage+JYCropImage.m */; };
+		15AB4B562249FF0200D58D10 /* JYCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B552249FF0200D58D10 /* JYCircleView.m */; };
 		E968A46C06AEEAC82FF96B35 /* libPods-JYVideoPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67C51D875E82009BF6599755 /* libPods-JYVideoPicker.a */; };
 /* End PBXBuildFile section */
 
@@ -1229,6 +1246,40 @@
 		156E2D85224229AC00C365A6 /* GPUImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageView.m; sourceTree = "<group>"; };
 		156E2F7A22422FDF00C365A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		156E2F7C22422FDF00C365A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		156E2F852242555D00C365A6 /* JYCutPhotoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYCutPhotoViewController.h; sourceTree = "<group>"; };
+		156E2F862242555D00C365A6 /* JYCutPhotoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYCutPhotoViewController.m; sourceTree = "<group>"; };
+		156E2F8922425BEF00C365A6 /* JYNavingationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYNavingationBar.h; sourceTree = "<group>"; };
+		156E2F8A22425BEF00C365A6 /* JYNavingationBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYNavingationBar.m; sourceTree = "<group>"; };
+		156E2F8C2243218600C365A6 /* backPhoto@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backPhoto@3x.png"; sourceTree = "<group>"; };
+		156E2F8D2243218600C365A6 /* backPhoto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backPhoto@2x.png"; sourceTree = "<group>"; };
+		156E2F8E2243218600C365A6 /* backPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backPhoto.png; sourceTree = "<group>"; };
+		156E2F9322437C8100C365A6 /* JYEditImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYEditImageViewController.h; sourceTree = "<group>"; };
+		156E2F9422437C8100C365A6 /* JYEditImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYEditImageViewController.m; sourceTree = "<group>"; };
+		156E2F962243839F00C365A6 /* JYPhotoBeautyBottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYPhotoBeautyBottomView.h; sourceTree = "<group>"; };
+		156E2F972243839F00C365A6 /* JYPhotoBeautyBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYPhotoBeautyBottomView.m; sourceTree = "<group>"; };
+		156E2F9A2243868200C365A6 /* JYPointSideButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYPointSideButton.h; sourceTree = "<group>"; };
+		156E2F9B2243868200C365A6 /* JYPointSideButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYPointSideButton.m; sourceTree = "<group>"; };
+		156E2F9C2243868200C365A6 /* UIButton+JYCustomLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+JYCustomLayout.h"; sourceTree = "<group>"; };
+		156E2F9D2243868200C365A6 /* UIButton+JYCustomLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+JYCustomLayout.m"; sourceTree = "<group>"; };
+		156E2FA02243BD9000C365A6 /* JYCustomCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYCustomCollectionView.h; sourceTree = "<group>"; };
+		156E2FA12243BD9000C365A6 /* JYCustomCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYCustomCollectionView.m; sourceTree = "<group>"; };
+		156E2FA32243C0C500C365A6 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		156E2FA42243C15600C365A6 /* JYENUM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYENUM.h; sourceTree = "<group>"; };
+		156E2FA52243C9AE00C365A6 /* JYVieodPickerMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYVieodPickerMacro.h; sourceTree = "<group>"; };
+		15AB4B422244C43F00D58D10 /* JYPhotoConfigModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYPhotoConfigModel.h; sourceTree = "<group>"; };
+		15AB4B432244C43F00D58D10 /* JYPhotoConfigModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYPhotoConfigModel.m; sourceTree = "<group>"; };
+		15AB4B452248720E00D58D10 /* JYEditImageFilterAndBeautyBottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYEditImageFilterAndBeautyBottomView.h; sourceTree = "<group>"; };
+		15AB4B462248720E00D58D10 /* JYEditImageFilterAndBeautyBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYEditImageFilterAndBeautyBottomView.m; sourceTree = "<group>"; };
+		15AB4B482248C23100D58D10 /* JYImageCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYImageCollectionView.h; sourceTree = "<group>"; };
+		15AB4B492248C23100D58D10 /* JYImageCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYImageCollectionView.m; sourceTree = "<group>"; };
+		15AB4B4B2248C79100D58D10 /* JYPhotoCropBottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYPhotoCropBottomView.h; sourceTree = "<group>"; };
+		15AB4B4C2248C79100D58D10 /* JYPhotoCropBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYPhotoCropBottomView.m; sourceTree = "<group>"; };
+		15AB4B4E2249C8B700D58D10 /* UIImage+JYRotate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+JYRotate.h"; sourceTree = "<group>"; };
+		15AB4B4F2249C8B800D58D10 /* UIImage+JYRotate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JYRotate.m"; sourceTree = "<group>"; };
+		15AB4B512249CBBF00D58D10 /* UIImage+JYCropImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+JYCropImage.h"; sourceTree = "<group>"; };
+		15AB4B522249CBBF00D58D10 /* UIImage+JYCropImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JYCropImage.m"; sourceTree = "<group>"; };
+		15AB4B542249FF0200D58D10 /* JYCircleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYCircleView.h; sourceTree = "<group>"; };
+		15AB4B552249FF0200D58D10 /* JYCircleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYCircleView.m; sourceTree = "<group>"; };
 		5A9FB50C3A1681E99A1320F0 /* Pods-JYVideoPicker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JYVideoPicker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JYVideoPicker/Pods-JYVideoPicker.debug.xcconfig"; sourceTree = "<group>"; };
 		67C51D875E82009BF6599755 /* libPods-JYVideoPicker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JYVideoPicker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1279,6 +1330,7 @@
 				156E29C3224228CD00C365A6 /* Assets.xcassets */,
 				156E29C8224228CD00C365A6 /* Info.plist */,
 				156E29C9224228CD00C365A6 /* main.m */,
+				156E2FA32243C0C500C365A6 /* PrefixHeader.pch */,
 			);
 			path = JYVideoPicker;
 			sourceTree = "<group>";
@@ -1473,6 +1525,10 @@
 				156E2AF2224229A300C365A6 /* JYVideoSubsectionView.m */,
 				156E2AF3224229A300C365A6 /* VideoCameraView.h */,
 				156E2AF4224229A300C365A6 /* VideoCameraView.mm */,
+				156E2FA02243BD9000C365A6 /* JYCustomCollectionView.h */,
+				156E2FA12243BD9000C365A6 /* JYCustomCollectionView.m */,
+				15AB4B542249FF0200D58D10 /* JYCircleView.h */,
+				15AB4B552249FF0200D58D10 /* JYCircleView.m */,
 			);
 			path = MediaCollection;
 			sourceTree = "<group>";
@@ -1482,6 +1538,8 @@
 			children = (
 				156E2AC6224229A300C365A6 /* EditVideoViewController.h */,
 				156E2AC7224229A300C365A6 /* EditVideoViewController.mm */,
+				156E2F9222437C4500C365A6 /* ImageEdit */,
+				156E2F8822425BB600C365A6 /* ImageCut */,
 			);
 			path = MediaEdit;
 			sourceTree = "<group>";
@@ -1491,6 +1549,8 @@
 			children = (
 				156E2AF7224229A300C365A6 /* JYVideoConfigModel.h */,
 				156E2AF8224229A300C365A6 /* JYVideoConfigModel.m */,
+				15AB4B422244C43F00D58D10 /* JYPhotoConfigModel.h */,
+				15AB4B432244C43F00D58D10 /* JYPhotoConfigModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1498,8 +1558,15 @@
 		156E2AF9224229A300C365A6 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				156E2FA42243C15600C365A6 /* JYENUM.h */,
+				156E2FA52243C9AE00C365A6 /* JYVieodPickerMacro.h */,
+				156E2F992243868200C365A6 /* UIButton */,
 				156E2AFA224229A300C365A6 /* JYCutDownLabel.h */,
 				156E2AFB224229A300C365A6 /* JYCutDownLabel.m */,
+				15AB4B4E2249C8B700D58D10 /* UIImage+JYRotate.h */,
+				15AB4B4F2249C8B800D58D10 /* UIImage+JYRotate.m */,
+				15AB4B512249CBBF00D58D10 /* UIImage+JYCropImage.h */,
+				15AB4B522249CBBF00D58D10 /* UIImage+JYCropImage.m */,
 				156E2AFC224229A300C365A6 /* UIColor+JYHex.h */,
 				156E2AFD224229A300C365A6 /* UIColor+JYHex.m */,
 			);
@@ -1718,6 +1785,9 @@
 		156E2B41224229A300C365A6 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				156E2F8E2243218600C365A6 /* backPhoto.png */,
+				156E2F8D2243218600C365A6 /* backPhoto@2x.png */,
+				156E2F8C2243218600C365A6 /* backPhoto@3x.png */,
 				156E2B42224229A300C365A6 /* back.png */,
 				156E2B43224229A300C365A6 /* back@2x.png */,
 				156E2B44224229A300C365A6 /* back@3x.png */,
@@ -2362,6 +2432,45 @@
 			path = Framework;
 			sourceTree = "<group>";
 		};
+		156E2F8822425BB600C365A6 /* ImageCut */ = {
+			isa = PBXGroup;
+			children = (
+				156E2F852242555D00C365A6 /* JYCutPhotoViewController.h */,
+				156E2F862242555D00C365A6 /* JYCutPhotoViewController.m */,
+				15AB4B4B2248C79100D58D10 /* JYPhotoCropBottomView.h */,
+				15AB4B4C2248C79100D58D10 /* JYPhotoCropBottomView.m */,
+				156E2F8922425BEF00C365A6 /* JYNavingationBar.h */,
+				156E2F8A22425BEF00C365A6 /* JYNavingationBar.m */,
+			);
+			path = ImageCut;
+			sourceTree = "<group>";
+		};
+		156E2F9222437C4500C365A6 /* ImageEdit */ = {
+			isa = PBXGroup;
+			children = (
+				156E2F9322437C8100C365A6 /* JYEditImageViewController.h */,
+				156E2F9422437C8100C365A6 /* JYEditImageViewController.m */,
+				156E2F962243839F00C365A6 /* JYPhotoBeautyBottomView.h */,
+				156E2F972243839F00C365A6 /* JYPhotoBeautyBottomView.m */,
+				15AB4B452248720E00D58D10 /* JYEditImageFilterAndBeautyBottomView.h */,
+				15AB4B462248720E00D58D10 /* JYEditImageFilterAndBeautyBottomView.m */,
+				15AB4B482248C23100D58D10 /* JYImageCollectionView.h */,
+				15AB4B492248C23100D58D10 /* JYImageCollectionView.m */,
+			);
+			path = ImageEdit;
+			sourceTree = "<group>";
+		};
+		156E2F992243868200C365A6 /* UIButton */ = {
+			isa = PBXGroup;
+			children = (
+				156E2F9A2243868200C365A6 /* JYPointSideButton.h */,
+				156E2F9B2243868200C365A6 /* JYPointSideButton.m */,
+				156E2F9C2243868200C365A6 /* UIButton+JYCustomLayout.h */,
+				156E2F9D2243868200C365A6 /* UIButton+JYCustomLayout.m */,
+			);
+			path = UIButton;
+			sourceTree = "<group>";
+		};
 		58418F99E00E739478DFEF14 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -2487,6 +2596,7 @@
 				156E2E89224229AC00C365A6 /* GiftRank@3x.png in Resources */,
 				156E2E60224229AC00C365A6 /* stickers563.jpg in Resources */,
 				156E2EA1224229AC00C365A6 /* location@3x.png in Resources */,
+				156E2F8F2243218600C365A6 /* backPhoto@3x.png in Resources */,
 				156E2DE1224229AC00C365A6 /* icon529.png in Resources */,
 				156E2E84224229AC00C365A6 /* comment@2x.png in Resources */,
 				156E2DC0224229AC00C365A6 /* lookup_miss_etikate.png in Resources */,
@@ -2515,6 +2625,7 @@
 				156E2E3F224229AC00C365A6 /* stickers530.jpg in Resources */,
 				156E2EA7224229AC00C365A6 /* LogoHuanggua@3x.png in Resources */,
 				156E2E53224229AC00C365A6 /* stickers550.jpg in Resources */,
+				156E2F902243218600C365A6 /* backPhoto@2x.png in Resources */,
 				156E2DDF224229AC00C365A6 /* music2.json in Resources */,
 				156E2E41224229AC00C365A6 /* stickers532.jpg in Resources */,
 				156E2E82224229AC00C365A6 /* actionbar_transparent_white_spectrum_9@2x.png in Resources */,
@@ -2623,6 +2734,7 @@
 				156E2E7E224229AC00C365A6 /* actionbar_transparent_white_spectrum_5@2x.png in Resources */,
 				156E2E14224229AC00C365A6 /* exchange_black@3x.png in Resources */,
 				156E2E83224229AC00C365A6 /* bgsearchSF@2x.png in Resources */,
+				156E2F912243218600C365A6 /* backPhoto.png in Resources */,
 				156E2E10224229AC00C365A6 /* exchange@2x.png in Resources */,
 				156E2DD9224229AC00C365A6 /* icon531.png in Resources */,
 				156E2E97224229AC00C365A6 /* HPeopleCountImageOne@2x.png in Resources */,
@@ -2784,6 +2896,7 @@
 				156E2DD2224229AC00C365A6 /* JYCutDownLabel.m in Sources */,
 				156E2F6F224229AD00C365A6 /* GPUImageWhiteBalanceFilter.m in Sources */,
 				156E2F12224229AC00C365A6 /* GPUImageHueFilter.m in Sources */,
+				156E2FA22243BD9000C365A6 /* JYCustomCollectionView.m in Sources */,
 				156E2F4E224229AD00C365A6 /* GPUImageSkinToneFilter.m in Sources */,
 				156E2F54224229AD00C365A6 /* GPUImageSolidColorGenerator.m in Sources */,
 				156E2EEC224229AC00C365A6 /* GPUImageDarkenBlendFilter.m in Sources */,
@@ -2798,6 +2911,7 @@
 				156E2F5E224229AD00C365A6 /* GPUImageThresholdEdgeDetectionFilter.m in Sources */,
 				156E2F3E224229AC00C365A6 /* GPUImagePrewittEdgeDetectionFilter.m in Sources */,
 				156E2E69224229AC00C365A6 /* LFGPUImageEmptyFilter.mm in Sources */,
+				15AB4B4D2248C79100D58D10 /* JYPhotoCropBottomView.m in Sources */,
 				156E2F3A224229AC00C365A6 /* GPUImagePoissonBlendFilter.m in Sources */,
 				156E2EDD224229AC00C365A6 /* GPUImageClosingFilter.m in Sources */,
 				156E2F59224229AD00C365A6 /* GPUImageSubtractBlendFilter.m in Sources */,
@@ -2809,13 +2923,16 @@
 				156E2F48224229AD00C365A6 /* GPUImageScreenBlendFilter.m in Sources */,
 				156E2F11224229AC00C365A6 /* GPUImageHueBlendFilter.m in Sources */,
 				156E2ED1224229AC00C365A6 /* GPUImageAmatorkaFilter.m in Sources */,
+				15AB4B562249FF0200D58D10 /* JYCircleView.m in Sources */,
 				156E2ECD224229AC00C365A6 /* GPUImage3x3TextureSamplingFilter.m in Sources */,
 				156E2D87224229AC00C365A6 /* ASValueTrackingSlider.m in Sources */,
 				156E2F36224229AC00C365A6 /* GPUImagePerlinNoiseFilter.m in Sources */,
 				156E2F61224229AD00C365A6 /* GPUImageTiltShiftFilter.m in Sources */,
 				156E2F4A224229AD00C365A6 /* GPUImageSharpenFilter.m in Sources */,
+				15AB4B442244C43F00D58D10 /* JYPhotoConfigModel.m in Sources */,
 				156E2F3F224229AC00C365A6 /* GPUImageRawDataInput.m in Sources */,
 				156E2ED5224229AC00C365A6 /* GPUImageBoxBlurFilter.m in Sources */,
+				15AB4B4A2248C23100D58D10 /* JYImageCollectionView.m in Sources */,
 				156E2F13224229AC00C365A6 /* GPUImageiOSBlurFilter.m in Sources */,
 				156E2F1F224229AC00C365A6 /* GPUImageLowPassFilter.m in Sources */,
 				156E2F19224229AC00C365A6 /* GPUImageLevelsFilter.m in Sources */,
@@ -2830,8 +2947,10 @@
 				156E2D96224229AC00C365A6 /* WMPlayer.m in Sources */,
 				156E2DC9224229AC00C365A6 /* JYVideoGridView.m in Sources */,
 				156E2F45224229AC00C365A6 /* GPUImageRGBOpeningFilter.m in Sources */,
+				15AB4B472248720E00D58D10 /* JYEditImageFilterAndBeautyBottomView.m in Sources */,
 				156E2EE4224229AC00C365A6 /* GPUImageColorMatrixFilter.m in Sources */,
 				156E2F42224229AC00C365A6 /* GPUImageRGBDilationFilter.m in Sources */,
+				15AB4B502249C8B800D58D10 /* UIImage+JYRotate.m in Sources */,
 				156E2F00224229AC00C365A6 /* GPUImageGaussianBlurFilter.m in Sources */,
 				156E2ECF224229AC00C365A6 /* GPUImageAddBlendFilter.m in Sources */,
 				156E2ED4224229AC00C365A6 /* GPUImageBilateralFilter.m in Sources */,
@@ -2852,6 +2971,7 @@
 				156E2F68224229AD00C365A6 /* GPUImageTwoPassTextureSamplingFilter.m in Sources */,
 				156E2DC3224229AC00C365A6 /* FilterModel.m in Sources */,
 				156E2F51224229AD00C365A6 /* GPUImageSoftEleganceFilter.m in Sources */,
+				156E2F982243839F00C365A6 /* JYPhotoBeautyBottomView.m in Sources */,
 				156E2EF9224229AC00C365A6 /* GPUImageFilter.m in Sources */,
 				156E2DC4224229AC00C365A6 /* JYVideoSlider.m in Sources */,
 				156E2F49224229AD00C365A6 /* GPUImageSepiaFilter.m in Sources */,
@@ -2863,6 +2983,7 @@
 				156E2F5B224229AD00C365A6 /* GPUImageTextureInput.m in Sources */,
 				156E2F44224229AC00C365A6 /* GPUImageRGBFilter.m in Sources */,
 				156E2D8D224229AC00C365A6 /* UIViewController+ZFPlayerRotation.m in Sources */,
+				156E2F9E2243868300C365A6 /* JYPointSideButton.m in Sources */,
 				156E2EDC224229AC00C365A6 /* GPUImageChromaKeyFilter.m in Sources */,
 				156E2E6E224229AC00C365A6 /* VideoListViewController.m in Sources */,
 				156E2F2D224229AC00C365A6 /* GPUImageMultiplyBlendFilter.m in Sources */,
@@ -2890,6 +3011,7 @@
 				156E2E71224229AC00C365A6 /* VideoCommentsTableViewCell.mm in Sources */,
 				156E2F1B224229AC00C365A6 /* GPUImageLinearBurnBlendFilter.m in Sources */,
 				156E2F1E224229AC00C365A6 /* GPUImageLookupFilter.m in Sources */,
+				15AB4B532249CBBF00D58D10 /* UIImage+JYCropImage.m in Sources */,
 				156E2F0B224229AC00C365A6 /* GPUImageHighPassFilter.m in Sources */,
 				156E2F22224229AC00C365A6 /* GPUImageLuminosity.m in Sources */,
 				156E2F31224229AC00C365A6 /* GPUImageOpacityFilter.m in Sources */,
@@ -2914,6 +3036,7 @@
 				156E2D90224229AC00C365A6 /* ZFBrightnessView.m in Sources */,
 				156E2F15224229AC00C365A6 /* GPUImageKuwaharaFilter.m in Sources */,
 				156E2D8C224229AC00C365A6 /* UIView+CustomControlView.m in Sources */,
+				156E2F9F2243868300C365A6 /* UIButton+JYCustomLayout.m in Sources */,
 				156E2F0D224229AC00C365A6 /* GPUImageHistogramFilter.m in Sources */,
 				156E2EE8224229AC00C365A6 /* GPUImageContrastFilter.m in Sources */,
 				156E2F65224229AD00C365A6 /* GPUImageTwoInputCrossTextureSamplingFilter.m in Sources */,
@@ -2929,6 +3052,7 @@
 				156E2F60224229AD00C365A6 /* GPUImageThresholdSketchFilter.m in Sources */,
 				156E2F6E224229AD00C365A6 /* GPUImageWeakPixelInclusionFilter.m in Sources */,
 				156E2EEE224229AC00C365A6 /* GPUImageDilationFilter.m in Sources */,
+				156E2F872242555D00C365A6 /* JYCutPhotoViewController.m in Sources */,
 				156E2ED0224229AC00C365A6 /* GPUImageAlphaBlendFilter.m in Sources */,
 				156E2EEB224229AC00C365A6 /* GPUImageCrosshatchFilter.m in Sources */,
 				156E2EF2224229AC00C365A6 /* GPUImageDivideBlendFilter.m in Sources */,
@@ -2952,6 +3076,7 @@
 				156E2EDB224229AC00C365A6 /* GPUImageChromaKeyBlendFilter.m in Sources */,
 				156E2F2B224229AC00C365A6 /* GPUImageMovie.m in Sources */,
 				156E2ED7224229AC00C365A6 /* GPUImageBuffer.m in Sources */,
+				156E2F9522437C8100C365A6 /* JYEditImageViewController.m in Sources */,
 				156E2F07224229AC00C365A6 /* GPUImageHarrisCornerDetectionFilter.m in Sources */,
 				156E2F40224229AC00C365A6 /* GPUImageRawDataOutput.m in Sources */,
 				156E2F21224229AC00C365A6 /* GPUImageLuminanceThresholdFilter.m in Sources */,
@@ -2972,6 +3097,7 @@
 				156E2DC8224229AC00C365A6 /* JYVideoCommonCell.m in Sources */,
 				156E2F74224229AD00C365A6 /* GPUImagePicture+TextureSubimage.m in Sources */,
 				156E2F09224229AC00C365A6 /* GPUImageHighlightShadowFilter.m in Sources */,
+				156E2F8B22425BEF00C365A6 /* JYNavingationBar.m in Sources */,
 				156E2F23224229AC00C365A6 /* GPUImageLuminosityBlendFilter.m in Sources */,
 				156E29BC224228CA00C365A6 /* AppDelegate.m in Sources */,
 				156E2F0F224229AC00C365A6 /* GPUImageHoughTransformLineDetector.m in Sources */,
@@ -3135,6 +3261,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8KWTD9W9BX;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/JYVideoPicker/PrefixHeader.pch";
 				INFOPLIST_FILE = JYVideoPicker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3154,6 +3281,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8KWTD9W9BX;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/JYVideoPicker/PrefixHeader.pch";
 				INFOPLIST_FILE = JYVideoPicker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (

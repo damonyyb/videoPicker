@@ -38,13 +38,15 @@
 #import "UIColor+JYHex.h"
 #import "JYBottomBeautySliderView.h"
 #import "JYCutDownLabel.h"
+#import "JYCutPhotoViewController.h"
+#import "JYEditImageViewController.h"
+#import <CoreGraphics/CoreGraphics.h>
+#import "JYPhotoConfigModel.h"
 
 #define VIDEO_FOLDER @"videoFolder"
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
-#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 #define TIMER_INTERVAL 0.05
 //默认60秒
@@ -121,16 +123,23 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
 @property (nonatomic, strong) JYVideoRecordCollectionView *videoCollectionView;
 //美白、磨皮滑竿
 @property (nonatomic, strong) JYVideoRecordSliderView *sliederView;
-//滤镜
-@property (nonatomic, strong) GPUImageFilter *filter;
+//视频滤镜
+@property (nonatomic, strong) GPUImageFilter *videoFilter;
+///视频美颜
+@property (nonatomic, strong) FSKGPUImageBeautyFilter *videoBeautyFilter;
+//照片滤镜
+@property (nonatomic, strong) GPUImageFilter *photoFilter;
+///照片美颜
+@property (nonatomic, strong) FSKGPUImageBeautyFilter *photoBeautyFilter;
+
+
 ///底部美化栏
 @property (nonatomic, strong) JYVideoPasterView *bottomBeautyView;
 ///底部贴纸栏
 @property (nonatomic, strong) JYVideoPasterView *bottomPasteView;
 ///网格
 @property (nonatomic, strong) JYVideoGridView *gridView;
-///美颜
-@property (nonatomic, strong) FSKGPUImageBeautyFilter *beautyFilter;
+
 ///分段
 @property (nonatomic, strong) JYVideoSubsectionView *bottomSubsectionView;
 ///新建相机cameraManager
@@ -143,6 +152,8 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
 @property (nonatomic, strong) UIImageView *checkView;
 ///拍照模式美颜slider
 @property (nonatomic, strong) JYBottomBeautySliderView *beautysliderView;
+///照片配置m
+@property (nonatomic, strong) JYPhotoConfigModel *photoModel;
 
 
 @end
@@ -314,9 +325,9 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
     [self.videoCamera removeAllTargets];
     [self.filteredVideoView removeFromSuperview];
     self.filteredVideoView.frame = frame;
-    [self.videoCamera addTarget:self.filter];
-    [self.filter addTarget:self.beautyFilter];
-    [self.beautyFilter addTarget:self.filteredVideoView];
+    [self.videoCamera addTarget:self.videoFilter];
+    [self.videoFilter addTarget:self.videoBeautyFilter];
+    [self.videoBeautyFilter addTarget:self.filteredVideoView];
     
     
     [self addSubview:self.filteredVideoView];
@@ -330,9 +341,9 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
     [self.stillCamera removeAllTargets];
     self.filteredPhotoView.frame = frame;
     
-    [self.stillCamera addTarget:self.filter];
-    [self.filter addTarget:self.beautyFilter];
-    [self.beautyFilter addTarget:self.filteredPhotoView];
+    [self.stillCamera addTarget:self.photoFilter];
+    [self.photoFilter addTarget:self.photoBeautyFilter];
+    [self.photoBeautyFilter addTarget:self.filteredPhotoView];
     
     [self.stillCamera startCameraCapture];
     [self sendSubviewToBack:self.filteredPhotoView];
@@ -455,7 +466,7 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
         NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
         movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:movieURL size:CGSizeMake(720.0, 1280.0)];
         movieWriter.isNeedBreakAudioWhiter = movieWriter.shouldPassthroughAudio = movieWriter.encodingLiveVideo = YES;
-        [self.filter addTarget:movieWriter];
+        [self.videoFilter addTarget:movieWriter];
         self.videoCamera.audioEncodingTarget = movieWriter;
         [movieWriter startRecording];
         
@@ -482,7 +493,7 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
         //停止录入
         if (_isRecoding) {
             [movieWriter finishRecording];
-            [self.filter removeTarget:movieWriter];
+            [self.videoFilter removeTarget:movieWriter];
             [urlArray addObject:[NSURL URLWithString:[NSString stringWithFormat:@"file://%@",pathToMovie]]];
             _isRecoding = NO;
         }
@@ -509,7 +520,7 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
     }
     if (_isRecoding) {
         [movieWriter finishRecording];
-        [self.filter removeTarget:movieWriter];
+        [self.videoFilter removeTarget:movieWriter];
         _isRecoding = NO;
     }
     
@@ -536,7 +547,7 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
     }
     if (_isRecoding) {
         [movieWriter finishRecording];
-        [self.filter removeTarget:movieWriter];
+        [self.videoFilter removeTarget:movieWriter];
         _isRecoding = NO;
     }
     
@@ -598,7 +609,7 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
 #pragma mark -- 拍照
 
 - (void)takePhoto{
-    [self.stillCamera capturePhotoAsImageProcessedUpToFilter:self.filter withCompletionHandler:^(UIImage *processedImage, NSError *error) {
+    [self.stillCamera capturePhotoAsImageProcessedUpToFilter:self.photoFilter withCompletionHandler:^(UIImage *processedImage, NSError *error) {
         [self.stillCamera stopCameraCapture];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"yyyyMMddHHmmss";
@@ -608,19 +619,26 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
         //把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
         [UIImagePNGRepresentation(processedImage) writeToFile:pathToMovie atomically:YES];
         
-        VideoModel *pModel = [[VideoModel alloc]init];
-        pModel.videoModel = [HXPhotoModel photoModelWithImageURL:[NSURL URLWithString:pathToMovie]];
-        pModel.modelType = JYModelType_photo;
-        EditVideoViewController* view = [[EditVideoViewController alloc]init];
-        view.width = _width;
-        view.hight = _hight;
-        view.bit = _bit;
-        view.frameRate = _frameRate;
-        view.image = processedImage;
-        [view.videoModelArray addObject: pModel];
+//        VideoModel *pModel = [[VideoModel alloc]init];
+//        pModel.videoModel = [HXPhotoModel photoModelWithImageURL:[NSURL URLWithString:pathToMovie]];
+//        pModel.modelType = JYModelType_photo;
+//        EditVideoViewController* view = [[EditVideoViewController alloc]init];
+//        view.width = _width;
+//        view.hight = _hight;
+//        view.bit = _bit;
+//        view.frameRate = _frameRate;
+//        view.image = processedImage;
+//        [view.videoModelArray addObject: pModel];
+        
+//        JYCutPhotoViewController *vc = [[JYCutPhotoViewController alloc]init];
+//        vc.originalImage = processedImage;
+        JYEditImageViewController *vc = [[JYEditImageViewController alloc]init];
+        UIImage *image = [VideoManager getCropImageWithOriginalImage:processedImage cropRect:self.filteredPhotoView.frame imageViewSize:self.filteredPhotoView.frame.size];
+        self.photoModel.editImage = image;
+        vc.photoConfigModelArray = @[self.photoModel];
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         if (self.delegate&&[self.delegate respondsToSelector:@selector(pushCor:)]) {
-            [self.delegate pushCor:view];
+            [self.delegate pushCor:vc];
         }
         [self removeFromSuperview];
         
@@ -638,15 +656,9 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
         if (model.subType == HXPhotoModelMediaSubTypePhoto) {
             [model requestPreviewImageWithSize:PHImageManagerMaximumSize startRequestICloud:nil progressHandler:nil success:^(UIImage *image, HXPhotoModel *model, NSDictionary *info) {
                 [HUD hideAnimated:YES];
-                EditVideoViewController* view = [[EditVideoViewController alloc]init];
-                view.width = _width;
-                view.hight = _hight;
-                view.bit = _bit;
-                view.frameRate = _frameRate;
-                view.image = image;
-                VideoModel *vModel = [[VideoModel alloc]init];
-                vModel.videoModel = model;
-                [view.videoModelArray addObject: vModel];
+                JYCutPhotoViewController* view = [[JYCutPhotoViewController alloc]init];
+                view.photoArray = allList;
+   
                 [[NSNotificationCenter defaultCenter] removeObserver:self];
                 if (self.delegate&&[self.delegate respondsToSelector:@selector(pushCor:)]) {
                     [self.delegate pushCor:view];
@@ -784,7 +796,7 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
     [self.videoCamera stopCameraCapture];
     if (_isRecoding) {
         [movieWriter cancelRecording];
-        [self.filter removeTarget:movieWriter];
+        [self.videoFilter removeTarget:movieWriter];
         _isRecoding = NO;
     }
     [myTimer invalidate];
@@ -810,10 +822,10 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
         sender.selected = YES;
         [self.stillCamera removeAllTargets];
         
-        [self.filter removeAllTargets];
-        [self.stillCamera addTarget:self.filter];
-        [self.filter addTarget:self.beautyFilter];
-        [self.beautyFilter addTarget:self.filteredPhotoView];
+        [self.photoFilter removeAllTargets];
+        [self.stillCamera addTarget:self.photoFilter];
+        [self.photoFilter addTarget:self.photoBeautyFilter];
+        [self.photoBeautyFilter addTarget:self.filteredPhotoView];
     }else{
         [self.videoCamera pauseCameraCapture];
         _position = CameraManagerDevicePositionFront;
@@ -824,10 +836,10 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
         sender.selected = YES;
         [self.videoCamera removeAllTargets];
         
-        [self.filter removeAllTargets];
-        [self.videoCamera addTarget:self.filter];
-        [self.filter addTarget:self.beautyFilter];
-        [self.beautyFilter addTarget:self.filteredVideoView];
+        [self.videoFilter removeAllTargets];
+        [self.videoCamera addTarget:self.videoFilter];
+        [self.videoFilter addTarget:self.videoBeautyFilter];
+        [self.videoBeautyFilter addTarget:self.filteredVideoView];
     }
 
     if (self.bottomBar.currentActon == JYVideoCameraBotomBarViewAction_takePhoto) {
@@ -876,11 +888,12 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
     //时间到了停止录制视频
     if (currentTime>=self.bottomSubsectionView.config.totlalSeconds) {
         [self.bottomBar setRecordBtnEnable:YES];
+        self.bottomSubsectionView.config.totalRecordSeconds = currentTime;
         [self stopRecording:nil];
     }
     if (self.bottomSubsectionView.config.isSubsection) {
         //更新录制按钮上的文字
-        [self.bottomBar updateRecordButtonTitle:currentTime];
+        [self.bottomBar updateRecordButtonTitle:currentTime-self.bottomSubsectionView.config.totalRecordSeconds totalSecondPerSubsection:self.bottomSubsectionView.config.totlalSeconds/self.bottomSubsectionView.config.totlalSubsection];
         float subsectionTime = self.bottomSubsectionView.config.totlalSeconds/self.bottomSubsectionView.config.totlalSubsection;
         if (currentTime >= subsectionTime*(urlArray.count+1)) {
             [self.bottomBar pauseRecord];
@@ -1064,12 +1077,16 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
 
 - (void)longPressGesture:(UILongPressGestureRecognizer *)gesture{
     if (gesture.state == UIGestureRecognizerStateBegan) {
-        self.beautyFilter.beautyLevel = 0;
+        if (self.bottomBar.currentActon == JYVideoCameraBotomBarViewAction_takePhoto) {
+            self.photoBeautyFilter.beautyLevel = 0;
+        }else{
+            self.videoBeautyFilter.beautyLevel = 0;
+        }
     }else if (gesture.state == UIGestureRecognizerStateFailed || gesture.state == UIGestureRecognizerStateCancelled ||  gesture.state == UIGestureRecognizerStateEnded){
         if (self.bottomBar.currentActon == JYVideoCameraBotomBarViewAction_takePhoto) {
-            self.beautyFilter.beautyLevel = self.beautysliderView.sliederView.beautySliderValue;
+            self.photoBeautyFilter.beautyLevel = self.beautysliderView.sliederView.beautySliderValue;
         }else{
-            self.beautyFilter.beautyLevel = self.sliederView.beautySliderValue;
+            self.videoBeautyFilter.beautyLevel = self.sliederView.beautySliderValue;
         }
         
     }
@@ -1077,15 +1094,16 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
 - (HXPhotoManager *)manager {
     if (!_manager) {
         _manager = [[HXPhotoManager alloc] initWithType:HXPhotoManagerSelectedTypePhotoAndVideo];
-        _manager.configuration.singleSelected = YES;
+        _manager.configuration.singleSelected = NO;
         _manager.configuration.albumListTableView = ^(UITableView *tableView) {
             //            NSSLog(@"%@",tableView);
         };
         _manager.configuration.singleJumpEdit = NO;
         _manager.configuration.movableCropBox = YES;
         _manager.configuration.movableCropBoxEditSize = YES;
-        _manager.configuration.openCamera = YES;
-        _manager.type = HXPhotoManagerSelectedTypePhotoAndVideo;
+        _manager.configuration.movableCropBoxCustomRatio = CGPointMake(1, 1);
+        _manager.configuration.openCamera = NO;
+        _manager.configuration.lookGifPhoto = NO;
         _manager.configuration.albumShowMode = HXPhotoAlbumShowModePopup;
         //        _manager.configuration.movableCropBoxCustomRatio = CGPointMake(1, 1);
     }
@@ -1110,7 +1128,7 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
                             [weakSelf addFilteredPhotoViewWithFrame:CGRectMake(0, 64, weakSelf.frame.size.width, weakSelf.frame.size.width)];
                             [weakSelf.topbar isChangeImageToWhiteColor:YES];
                         }else{
-                            [weakSelf addFilteredPhotoViewWithFrame:CGRectMake(0, 0, weakSelf.frame.size.width, weakSelf.frame.size.width*4/3)];
+                            [weakSelf addFilteredPhotoViewWithFrame:weakSelf.bounds];
                             [weakSelf.topbar isChangeImageToWhiteColor:NO];
                         }
                     }else{//拍视频
@@ -1306,11 +1324,19 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
             make.right.mas_equalTo(-80);
             make.bottom.mas_equalTo(self.bottomBar.mas_top).mas_offset(-15);
         }];
-        _sliederView.updateSbuffingValue = ^(CGFloat value) {
-            weakSelf.beautyFilter.beautyLevel = value;
+        _sliederView.updateSbuffingValueBlock = ^(CGFloat value) {
+            if (self.bottomBar.currentActon == JYVideoCameraBotomBarViewAction_takePhoto) {
+                weakSelf.photoBeautyFilter.beautyLevel = value;
+            }else{
+                weakSelf.videoBeautyFilter.beautyLevel = value;
+            }
         };
-        _sliederView.updateSkinWhiteningValue = ^(CGFloat value) {
-            weakSelf.beautyFilter.brightLevel = value;
+        _sliederView.updateSkinWhiteningValueBlock = ^(CGFloat value) {
+            if (self.bottomBar.currentActon == JYVideoCameraBotomBarViewAction_takePhoto) {
+                weakSelf.photoBeautyFilter.brightLevel = value;
+            }else{
+                weakSelf.videoBeautyFilter.brightLevel = value;
+            }
         };
     }
     return _sliederView;
@@ -1344,21 +1370,24 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
                     [weakSelf.videoCamera removeAllTargets];
                     
                     FilterModel* data = [weakSelf.filterAry objectAtIndex:indexPath.row];
-                    _filtClassName = data.fillterName;
+                    weakSelf.filtClassName = data.fillterName;
                     
-                    weakSelf.filter = [[NSClassFromString(weakSelf.filtClassName) alloc] init];
+                    
                     if (weakSelf.bottomBar.currentActon == JYVideoCameraBotomBarViewAction_video) {
+                         weakSelf.videoFilter = [[NSClassFromString(weakSelf.filtClassName) alloc] init];
                         [weakSelf.videoCamera removeAllTargets];
-                        [weakSelf.videoCamera addTarget:weakSelf.filter];
+                        [weakSelf.videoCamera addTarget:weakSelf.videoFilter];
                         
-                        [weakSelf.filter addTarget:weakSelf.beautyFilter];
-                        [weakSelf.beautyFilter addTarget:weakSelf.filteredVideoView];
+                        [weakSelf.videoFilter addTarget:weakSelf.videoBeautyFilter];
+                        [weakSelf.videoBeautyFilter addTarget:weakSelf.filteredVideoView];
                     }else{
+                         weakSelf.photoFilter = [[NSClassFromString(weakSelf.filtClassName) alloc] init];
                         [weakSelf.stillCamera removeAllTargets];
-                        [weakSelf.stillCamera addTarget:weakSelf.filter];
+                        [weakSelf.stillCamera addTarget:weakSelf.photoFilter];
                         
-                        [weakSelf.filter addTarget:weakSelf.beautyFilter];
-                        [weakSelf.beautyFilter addTarget:weakSelf.filteredPhotoView];
+                        [weakSelf.photoFilter addTarget:weakSelf.photoBeautyFilter];
+                        [weakSelf.photoBeautyFilter addTarget:weakSelf.filteredPhotoView];
+                        weakSelf.photoModel.filterIndex = indexPath.row;
                     }
                     
                 }else{//有滤镜
@@ -1366,28 +1395,40 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
                     
                     
                     FilterModel* data = [weakSelf.filterAry objectAtIndex:indexPath.row];
-                    _filtClassName = data.fillterName;
+                    weakSelf.filtClassName = data.fillterName;
                     
                     if ([data.fillterName isEqualToString:@"GPUImageSaturationFilter"]) {
                         GPUImageSaturationFilter* xxxxfilter = [[NSClassFromString(weakSelf.filtClassName) alloc] init];
                         xxxxfilter.saturation = [data.value floatValue];
-                        _saturationValue = [data.value floatValue];
-                        weakSelf.filter = xxxxfilter;
+                        weakSelf.saturationValue = [data.value floatValue];
+                        if (weakSelf.bottomBar.currentActon == JYVideoCameraBotomBarViewAction_video) {
+                            weakSelf.videoFilter = xxxxfilter;
+                        }else{
+                            weakSelf.photoFilter = xxxxfilter;
+                            weakSelf.photoModel.filterIndex = indexPath.row;
+                        }
+                        
                         
                     }else{
-                        weakSelf.filter = [[NSClassFromString(weakSelf.filtClassName) alloc] init];
+                        if (weakSelf.bottomBar.currentActon == JYVideoCameraBotomBarViewAction_video) {
+                            weakSelf.videoFilter = [[NSClassFromString(weakSelf.filtClassName) alloc] init];
+                        }else{
+                            weakSelf.photoFilter = [[NSClassFromString(weakSelf.filtClassName) alloc] init];
+                            weakSelf.photoModel.filterIndex = indexPath.row;
+                        }
                     }
                     if (weakSelf.bottomBar.currentActon == JYVideoCameraBotomBarViewAction_video) {
-                        [weakSelf.videoCamera addTarget:weakSelf.filter];
+                        [weakSelf.videoCamera addTarget:weakSelf.videoFilter];
                         
-                        [weakSelf.filter addTarget:weakSelf.beautyFilter];
-                        [weakSelf.beautyFilter addTarget:weakSelf.filteredVideoView];
+                        [weakSelf.videoFilter addTarget:weakSelf.videoBeautyFilter];
+                        [weakSelf.videoBeautyFilter addTarget:weakSelf.filteredVideoView];
                     }else{
                         [weakSelf.stillCamera removeAllTargets];
-                        [weakSelf.stillCamera addTarget:weakSelf.filter];
+                        [weakSelf.stillCamera addTarget:weakSelf.photoFilter];
                         
-                        [weakSelf.filter addTarget:weakSelf.beautyFilter];
-                        [weakSelf.beautyFilter addTarget:weakSelf.filteredPhotoView];
+                        [weakSelf.photoFilter addTarget:weakSelf.photoBeautyFilter];
+                        [weakSelf.photoBeautyFilter addTarget:weakSelf.filteredPhotoView];
+                        weakSelf.photoModel.filterIndex = indexPath.row;
                     }
                     
                 }
@@ -1419,7 +1460,7 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
                 weakSelf.lastStickersIndex = indexPath;
                 weakSelf.bottomPasteView.stickersModelArray = weakSelf.stickersAry;
                 [weakSelf.bottomPasteView reloadCollectionView];
-                _nowStickersIndex = indexPath;
+                weakSelf.nowStickersIndex = indexPath;
             }
             else
             {
@@ -1443,7 +1484,7 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
             make.left.bottom.right.mas_equalTo(0);
         }];
         _bottomSubsectionView.configChangeBlock = ^(JYVideoConfigModel * _Nonnull config) {
-            weakSelf.videoCollectionView.config = config;
+        weakSelf.videoCollectionView.config = config;
             progressStep = SCREEN_WIDTH*TIMER_INTERVAL/config.totlalSeconds;
         };
     }
@@ -1461,21 +1502,37 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
     }
     return _gridView;
 }
-- (FSKGPUImageBeautyFilter *)beautyFilter
+- (FSKGPUImageBeautyFilter *)videoBeautyFilter
 {
-    if (!_beautyFilter) {
-        _beautyFilter = [[FSKGPUImageBeautyFilter alloc]init];
-        _beautyFilter.beautyLevel = 0.5;
-        _beautyFilter.brightLevel = 0.5;
+    if (!_videoBeautyFilter) {
+        _videoBeautyFilter = [[FSKGPUImageBeautyFilter alloc]init];
+        _videoBeautyFilter.beautyLevel = 0.5;
+        _videoBeautyFilter.brightLevel = 0.5;
     }
-    return _beautyFilter;
+    return _videoBeautyFilter;
 }
-- (GPUImageFilter *)filter
+- (GPUImageFilter *)videoFilter
 {
-    if (!_filter) {
-        _filter = [[LFGPUImageEmptyFilter alloc] init];
+    if (!_videoFilter) {
+        _videoFilter = [[LFGPUImageEmptyFilter alloc] init];
     }
-    return _filter;
+    return _videoFilter;
+}
+- (FSKGPUImageBeautyFilter *)photoBeautyFilter
+{
+    if (!_photoBeautyFilter) {
+        _photoBeautyFilter = [[FSKGPUImageBeautyFilter alloc]init];
+        _photoBeautyFilter.beautyLevel = 0.5;
+        _photoBeautyFilter.brightLevel = 0.5;
+    }
+    return _photoBeautyFilter;
+}
+- (GPUImageFilter *)photoFilter
+{
+    if (!_photoFilter) {
+        _photoFilter = [[LFGPUImageEmptyFilter alloc] init];
+    }
+    return _photoFilter;
 }
 - (GPUImageStillCamera *)stillCamera
 {
@@ -1533,11 +1590,21 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
         [_beautysliderView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.mas_equalTo(0);
         }];
-        _beautysliderView.sliederView.updateSbuffingValue = ^(CGFloat value) {
-            weakSelf.beautyFilter.beautyLevel = value;
+        _beautysliderView.sliederView.updateSbuffingValueBlock = ^(CGFloat value) {
+            if (weakSelf.bottomBar.currentActon == JYVideoCameraBotomBarViewAction_video) {
+                 weakSelf.videoBeautyFilter.beautyLevel = value;
+            }else{
+                weakSelf.photoBeautyFilter.beautyLevel = value;
+                weakSelf.photoModel.beautyLevel = value;
+            }
         };
-        _beautysliderView.sliederView.updateSkinWhiteningValue = ^(CGFloat value) {
-            weakSelf.beautyFilter.brightLevel = value;
+        _beautysliderView.sliederView.updateSkinWhiteningValueBlock = ^(CGFloat value) {
+            if (weakSelf.bottomBar.currentActon == JYVideoCameraBotomBarViewAction_video) {
+                weakSelf.videoBeautyFilter.brightLevel = value;
+            }else{
+                weakSelf.photoBeautyFilter.brightLevel = value;
+                weakSelf.photoModel.brightLevel = value;
+            }
         };
     }
     return _beautysliderView;
@@ -1557,6 +1624,13 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
         }];
     }
     return _finishRecordButton;
+}
+- (JYPhotoConfigModel *)photoModel
+{
+    if (!_photoModel) {
+        _photoModel = [JYPhotoConfigModel new];
+    }
+    return _photoModel;
 }
 @end
 

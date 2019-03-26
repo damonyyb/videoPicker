@@ -22,6 +22,15 @@ typedef void(^videoListBlock)(NSArray*avassetUrlArr);
 + (NSArray *)getMusicData;
 + (NSArray *)getStikersData;
 + (NSArray *)getFiltersData;
++ (UIImage *)image:(UIImage *)image rotation:(UIImageOrientation)orientation;
+/**
+ 裁剪照片
+ 
+ @return 图片
+ */
++(UIImage *)getCropImageWithOriginalImage:(UIImage *)originalImage cropRect:(CGRect)cropRect imageViewSize:(CGSize)imageViewSize;
+
+
 
 
 

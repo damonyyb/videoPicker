@@ -9,6 +9,8 @@
 #import "JYVideoCameraBotomBarView.h"
 #import "UIColor+JYHex.h"
 #import "Masonry.h"
+#import "JYCircleView.h"
+
 @interface JYVideoCameraBotomBarView()
 @property (nonatomic, strong) UIButton *recordBtn;
 @property (nonatomic, strong) UIButton *delBtn;
@@ -20,7 +22,7 @@
 ///白色背景
 @property (nonatomic, strong) UIView *whiteBgView;
 ///录制背景圆圈
-@property (nonatomic, strong) UIView *recordBtnBgView;
+@property (nonatomic, strong) JYCircleView *recordBtnBgView;
 
 
 
@@ -44,18 +46,14 @@
     [self addCoverView];
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     //录制背景
-    _recordBtnBgView = [UIView new];
+    _recordBtnBgView = [[JYCircleView alloc]initWithFrame:CGRectMake(0, 15, 62, 62)];
     [self addSubview:_recordBtnBgView];
     [_recordBtnBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(0);
         make.top.mas_equalTo(15);
         make.width.height.mas_equalTo(62);
     }];
-    _recordBtnBgView.layer.masksToBounds = YES;
-    _recordBtnBgView.layer.borderColor = [UIColor whiteColor].CGColor;
-    _recordBtnBgView.layer.borderWidth = 1;
-    _recordBtnBgView.layer.cornerRadius = 31;
-    
+    _recordBtnBgView.transform = CGAffineTransformMakeRotation(-M_PI/2);
     //录制
     _recordBtn = [self createButtonWithImage:@"" title:@""];
     [self addSubview:_recordBtn];
@@ -67,7 +65,6 @@
         make.center.mas_equalTo(self.recordBtnBgView);
         make.width.height.mas_equalTo(47);
     }];
-    
     
     //取消/美化
     _cancelBtn = [self createButtonWithImage:@"beauty" title:@""];
@@ -351,6 +348,7 @@
 {
     self.recordBtn.enabled = enable;
     [self.recordBtn setTitle:@"" forState:UIControlStateNormal];
+    self.recordBtnBgView.progress = 0;
 }
 - (void)pauseRecord
 {
@@ -376,8 +374,14 @@
     }
     return _whiteBgView;
 }
-- (void)updateRecordButtonTitle:(float)second
+- (void)updateRecordButtonTitle:(float)second totalSecondPerSubsection:(float)totalSecondPerSubsection
 {
-    [self.recordBtn setTitle:[NSString stringWithFormat:@"%.1fs",second] forState:UIControlStateNormal];
+    if (totalSecondPerSubsection > 0) {
+        self.recordBtnBgView.progress = second/totalSecondPerSubsection;
+        [self.recordBtn setTitle:[NSString stringWithFormat:@"%.1fs",second] forState:UIControlStateNormal];
+    }else{
+        [self.recordBtn setTitle:[NSString stringWithFormat:@"%.1fs",second] forState:UIControlStateNormal];
+    }
+    
 }
 @end
