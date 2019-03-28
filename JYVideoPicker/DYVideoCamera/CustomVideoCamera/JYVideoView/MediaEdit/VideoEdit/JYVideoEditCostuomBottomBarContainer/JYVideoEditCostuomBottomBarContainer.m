@@ -52,6 +52,28 @@
         make.height.mas_equalTo(1);
     }];
 }
+#pragma mark -- public method
+
+- (void)showBottomBar:(BOOL)show super:(UIView *)super
+{
+    self.hidden = NO;
+    if (show) {
+        CGRect frame = self.frame;
+        frame.origin.y = SCREEN_HEIGHT;
+        self.frame  = frame;
+        frame.origin.y = SCREEN_HEIGHT-frame.size.height;
+        [UIView animateWithDuration:0.15 animations:^{
+            self.frame = frame;
+        } completion:^(BOOL finished) {}];
+    }else{
+        CGRect frame = self.frame;
+        frame.origin.y = SCREEN_HEIGHT;
+        [UIView animateWithDuration:0.15 animations:^{
+            self.frame = frame;
+        } completion:^(BOOL finished) {}];
+    }
+    
+}
 #pragma mark -- action
 
 - (void)leftButtonClicked
@@ -60,8 +82,25 @@
 }
 - (void)rightButtonClicked
 {
-    self.rightButtonBlock();
+    self.rightButtonBlock(self.action);
 }
+
+#pragma mark -- setter
+
+-(void)setAction:(JYVideoMakeDetailAction)action
+{
+    _action = action;
+    
+    if (action == JYVideoMakeDetailAction_crop) {
+        self.slider.hidden = NO;
+        self.speedSlider.hidden = YES;
+    }else if (action == JYVideoMakeDetailAction_speed){
+        self.slider.hidden = YES;
+        self.speedSlider.hidden = NO;
+    }
+}
+
+
 #pragma mark -- slider delegate
 
 
@@ -123,28 +162,24 @@
         [_slider mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.line.mas_bottom).mas_offset(32);
             make.bottom.mas_equalTo(-37);
-            make.width.left.right.mas_equalTo(0);
+            make.left.right.mas_equalTo(0);
             make.height.mas_equalTo(52);
         }];
     }
     return _slider;
 }
-- (void)showBottomBar:(BOOL)show super:(UIView *)super
+- (JYSpeedSlider *)speedSlider
 {
-    self.hidden = NO;
-    if (show) {
-        CGRect frame = self.frame;
-        frame.origin.y = SCREEN_HEIGHT-frame.size.height;
-        [UIView animateWithDuration:0.15 animations:^{
-            self.frame = frame;
-        } completion:^(BOOL finished) {}];
-    }else{
-        CGRect frame = self.frame;
-        frame.origin.y = SCREEN_HEIGHT;
-        [UIView animateWithDuration:0.15 animations:^{
-            self.frame = frame;
-        } completion:^(BOOL finished) {}];
+    if (!_speedSlider) {
+        _speedSlider = [JYSpeedSlider new];
+        //视频拖动裁剪
+        [self addSubview:_speedSlider];
+        [_speedSlider mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.line.mas_bottom);
+            make.bottom.mas_equalTo(-17);
+            make.left.right.mas_equalTo(0);
+        }];
     }
-    
+    return _speedSlider;
 }
 @end

@@ -18,6 +18,10 @@ typedef NS_ENUM(NSInteger,JYModelType) {
 @interface VideoModel : NSObject
 @property (nonatomic, strong) HXPhotoModel *videoModel;
 @property (nonatomic, assign) JYModelType modelType;
+//旋转角度
+@property(nonatomic) CGAffineTransform transform;
+//速度
+@property (nonatomic, assign) CGFloat rate;
 @end
 
 NS_ASSUME_NONNULL_END

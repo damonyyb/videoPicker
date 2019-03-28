@@ -83,14 +83,6 @@
     _filterView = [[GPUImageView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 424*SCREEN_HEIGHT/667.f)];
     _filterView.backgroundColor = [UIColor whiteColor];
     _mainPlayer = [[AVPlayer alloc] init];
-    
-    
-
-
-    [self videoConfigWithIndex:0];
-    
-    
-
 
 }
 - (void)videoConfigWithIndex:(NSInteger)index
@@ -98,9 +90,10 @@
     VideoModel *model = self.videoModelArray[index];
     self.seletedVideoModel = model;
     _playerItem = [[AVPlayerItem alloc] initWithURL:model.videoModel.fileURL];
+    [self enableAudioTracks:YES inPlayerItem:_playerItem];
     self.seletedVideoModel = self.videoModelArray.firstObject;
     [self.mainPlayer replaceCurrentItemWithPlayerItem:self.playerItem];
-    
+
     self.movieFile = [[GPUImageMovie alloc] initWithPlayerItem:self.playerItem];
     self.movieFile.runBenchmark = YES;
     self.movieFile.playAtActualSpeed = YES;
@@ -110,17 +103,20 @@
     [self.movieFile addTarget:self.filter];
     [self.filter addTarget:self.filterView];
     [self.view addSubview:self.filterView];
-    
-    [self.view bringSubviewToFront:self.topbar];
-    float scale = model.videoModel.asset.pixelWidth/model.videoModel.asset.pixelHeight;
-    if (scale>1) {
-        _filterView.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_WIDTH/scale);
-    }else{
-        _filterView.frame = CGRectMake(0, 64, SCREEN_WIDTH, 424*SCREEN_HEIGHT/667.f);
-    }
-    
+
+//    float scale = model.videoModel.asset.pixelWidth*1.f/model.videoModel.asset.pixelHeight;
+//    if (scale>1) {
+//        _filterView.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_WIDTH/scale);
+//    }else{
+//        _filterView.frame = CGRectMake(0, 64, SCREEN_WIDTH, 424*SCREEN_HEIGHT/667.f);
+//    }
 }
 - (void)playVideo{
+    if (self.seletedVideoModel.rate <= 0) {
+        self.mainPlayer.rate = 1.0;
+    }else{
+        self.mainPlayer.rate = self.seletedVideoModel.rate;
+    }
     [self.mainPlayer play];
     [self.movieFile startProcessing];
 }
@@ -153,6 +149,11 @@
 
 - (void)playButtonClicked
 {
+    if (self.seletedVideoModel.rate <= 0) {
+        self.mainPlayer.rate = 1.0;
+    }else{
+        self.mainPlayer.rate = self.seletedVideoModel.rate;
+    }
     [self.playerItem seekToTime:kCMTimeZero];
     [self.mainPlayer play];
 //    if (_audioPath) {
@@ -171,6 +172,60 @@
     
     //    [[NSNotificationCenter defaultCenter] removeObserver:self];
     //    [self dismissViewControllerAnimated:YES completion:nil];
+}
+#pragma mark -- 裁剪视频
+
+- (void)cutvideoBtnClicked
+{
+    kWeakSelf;
+    __block NSURL *selectedURL = self.seletedVideoModel.videoModel.fileURL;
+    AVAsset *avasset = [AVURLAsset URLAssetWithURL:selectedURL options:nil];
+    CMTime totalDuration = CMTimeAdd(kCMTimeZero, avasset.duration);
+    [self.HUD hx_showLoadingHUDText:@"视频裁剪中"];
+    CMTimeRange range = CMTimeRangeMake(CMTimeMakeWithSeconds(0.0, totalDuration.timescale), CMTimeMakeWithSeconds(self.endTime, totalDuration.timescale));
+    [HXPhotoTools exportEditVideoForAVAsset:avasset timeRange:range presetName:AVAssetExportPresetHighestQuality success:^(NSURL *videoURL) {
+       
+        HXPhotoModel *model = [HXPhotoModel photoModelWithVideoURL:videoURL];
+        VideoModel *vModel = [[VideoModel alloc]init];
+        vModel.videoModel = model;
+        [self.videoModelArray enumerateObjectsUsingBlock:^(VideoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj.videoModel.fileURL isEqual:selectedURL]) {
+                weakSelf.seletedVideoModel = vModel;
+                [weakSelf.videoModelArray removeObject:obj];
+                [weakSelf.videoModelArray insertObject:vModel atIndex:idx];
+                selectedURL = videoURL;
+                *stop = YES;
+            }
+        }];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.videoListView.videoModelArray = weakSelf.videoModelArray;
+            [weakSelf.bottomBarContainer showBottomBar:NO super:self.view];
+        });
+        CMTimeRange range2 = CMTimeRangeMake(CMTimeMakeWithSeconds(self.endTime, totalDuration.timescale), CMTimeMakeWithSeconds(CMTimeGetSeconds(avasset.duration), totalDuration.timescale));
+        [HXPhotoTools exportEditVideoForAVAsset:avasset timeRange:range2 presetName:AVAssetExportPresetHighestQuality success:^(NSURL *videoURL) {
+            [self.HUD hx_showLoadingHUDText:@"视频裁剪成功" delay:1.0];
+            HXPhotoModel *model1 = [HXPhotoModel photoModelWithVideoURL:videoURL];
+            VideoModel *vModel1 = [[VideoModel alloc]init];
+            vModel1.videoModel = model1;
+            [weakSelf.videoModelArray enumerateObjectsUsingBlock:^(VideoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj.videoModel.fileURL isEqual:selectedURL]) {
+                    [weakSelf.videoModelArray insertObject:vModel1 atIndex:idx+1];
+                    *stop = YES;
+                }
+            }];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf.videoListView.videoModelArray = weakSelf.videoModelArray;
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    weakSelf.videoListView.currentIndexPath = [NSIndexPath indexPathForRow:weakSelf.videoModelArray.count-1 inSection:0];
+                });
+            });
+        } failed:^(NSError *error) {
+            
+        }];
+    } failed:^(NSError *error) {
+        
+    }];
+    
 }
 #pragma mark -- 本地选取视频/图片
 - (void)importVideo
@@ -304,10 +359,25 @@
         [_bottomBarMakeDetailView setupSubviews];
         kWeakSelf
         _bottomBarMakeDetailView.videoMakeDetailActionBlock = ^(JYVideoMakeDetailAction action) {
-            if (action == JYVideoMakeDetailAction_crop) {
-                weakSelf.bottomBarContainer.hidden = NO;
+            
+            
+            
+            if (action == JYVideoMakeDetailAction_crop) {//裁剪
+                weakSelf.bottomBarContainer.action = action;
+                [weakSelf.bottomBarContainer showBottomBar:YES super:weakSelf.view];
                 [weakSelf.view bringSubviewToFront:weakSelf.bottomBarContainer];
                 [weakSelf.bottomBarContainer.slider getMovieFrame:weakSelf.seletedVideoModel.videoModel.fileURL];
+                
+            }else if (action == JYVideoMakeDetailAction_rotate){//旋转
+                weakSelf.seletedVideoModel.transform = CGAffineTransformRotate(weakSelf.filterView.transform, -M_PI/2);
+                [UIView animateWithDuration:0.35 animations:^{
+                    weakSelf.filterView.transform = weakSelf.seletedVideoModel.transform;
+                }];
+                
+            }else if (action == JYVideoMakeDetailAction_speed){//速度
+                weakSelf.bottomBarContainer.action = action;
+                [weakSelf.bottomBarContainer showBottomBar:YES super:weakSelf.view];
+                [weakSelf.view bringSubviewToFront:weakSelf.bottomBarContainer];
             }
         };
         
@@ -349,6 +419,7 @@
         _manager.configuration.openCamera = NO;
         _manager.configuration.lookGifPhoto = NO;
         _manager.configuration.albumShowMode = HXPhotoAlbumShowModePopup;
+        _manager.type = HXPhotoManagerSelectedTypeVideo;
         //        _manager.configuration.movableCropBoxCustomRatio = CGPointMake(1, 1);
     }
     return _manager;
@@ -360,13 +431,30 @@
         [self.view addSubview:_bottomBarContainer];
         _bottomBarContainer.slider.delegate = self;
         [_bottomBarContainer mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.bottom.right.mas_equalTo(0);
+            make.left.right.mas_equalTo(0);
+            make.bottom.mas_equalTo(0);
             make.height.mas_equalTo(180);
         }];
-        _bottomBarContainer.rightButtonBlock = ^{
-            
+        kWeakSelf
+        _bottomBarContainer.rightButtonBlock = ^(JYVideoMakeDetailAction action) {
+            if (action == JYVideoMakeDetailAction_crop) {//裁剪确认
+                [weakSelf cutvideoBtnClicked];
+            }else if (action == JYVideoMakeDetailAction_speed){//速度确认
+                weakSelf.seletedVideoModel.rate = weakSelf.bottomBarContainer.speedSlider.rate;
+                weakSelf.mainPlayer.rate = weakSelf.seletedVideoModel.rate;
+            }
         };
     }
     return _bottomBarContainer;
+}
+- (void)enableAudioTracks:(BOOL)enable inPlayerItem:(AVPlayerItem*)playerItem
+{
+    for (AVPlayerItemTrack *track in playerItem.tracks)
+    {
+        if ([track.assetTrack.mediaType isEqual:AVMediaTypeAudio])
+        {
+            track.enabled = enable;
+        }
+    }
 }
 @end

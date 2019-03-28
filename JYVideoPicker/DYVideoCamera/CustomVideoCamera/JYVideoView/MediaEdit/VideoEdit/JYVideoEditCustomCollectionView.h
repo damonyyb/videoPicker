@@ -10,15 +10,6 @@
 #import "UIButton+JYCustomLayout.h"
 NS_ASSUME_NONNULL_BEGIN
 
-///制作中的详细动作
-typedef NS_ENUM(NSInteger, JYVideoMakeDetailAction) {
-    JYVideoMakeDetailAction_crop = 0,
-    JYVideoMakeDetailAction_rotate,
-    JYVideoMakeDetailAction_speed,
-    JYVideoMakeDetailAction_sticker,
-    JYVideoMakeDetailAction_tag,
-    JYVideoMakeDetailAction_text
-};
 
 @interface JYVideoEditCustomCollectionViewCell : UICollectionViewCell
 @property (nonatomic, strong) NSString *title;

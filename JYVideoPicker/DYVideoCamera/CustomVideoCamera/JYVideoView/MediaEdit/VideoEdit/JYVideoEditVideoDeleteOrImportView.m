@@ -93,7 +93,11 @@ static NSString *cellID = @"cellID";
     cell.selected = YES;
     cell = [collectionView cellForItemAtIndexPath:self.currentIndexPath];
     cell.selected = NO;
-    self.currentIndexPath = indexPath;
+    _currentIndexPath = indexPath;
+}
+- (void)setCurrentIndexPath:(NSIndexPath *)currentIndexPath
+{
+    [self collectionView:self.collectionView didSelectItemAtIndexPath:currentIndexPath];
 }
 #pragma mark -- Action
 

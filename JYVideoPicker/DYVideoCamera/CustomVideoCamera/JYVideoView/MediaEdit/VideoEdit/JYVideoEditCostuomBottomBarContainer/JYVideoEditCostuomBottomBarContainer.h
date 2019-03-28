@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JYVideoSlider.h"
+#import "JYSpeedSlider.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JYVideoEditCostuomBottomBarContainer : UIView
@@ -19,13 +20,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) JYPointSideButton *rightButton;
 ///视频拖动
 @property (nonatomic, strong) JYVideoSlider *slider;
+///视频速度
+@property (nonatomic, strong) JYSpeedSlider *speedSlider;
+///动作类型
+@property (nonatomic, assign) JYVideoMakeDetailAction action;
 
 //返回
 @property (nonatomic, copy) void (^leftButtonBlock)(void);
 //右边button
-@property (nonatomic, copy) void (^rightButtonBlock)(void);
+@property (nonatomic, copy) void (^rightButtonBlock)(JYVideoMakeDetailAction action);
 ///展示/隐藏
 - (void)showBottomBar:(BOOL)show super:(UIView *)super;
+
 @end
 
 NS_ASSUME_NONNULL_END

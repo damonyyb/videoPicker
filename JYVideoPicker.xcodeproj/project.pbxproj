@@ -520,6 +520,7 @@
 		15AB4B5D224A495400D58D10 /* JYVideoEditCustomCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B5C224A495400D58D10 /* JYVideoEditCustomCollectionView.m */; };
 		15AB4B60224B2A3900D58D10 /* JYVideoEditVideoDeleteOrImportView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B5F224B2A3900D58D10 /* JYVideoEditVideoDeleteOrImportView.m */; };
 		15AB4B63224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B62224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.m */; };
+		15AB4B67224CA94300D58D10 /* JYSpeedSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B66224CA94300D58D10 /* JYSpeedSlider.m */; };
 		E968A46C06AEEAC82FF96B35 /* libPods-JYVideoPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67C51D875E82009BF6599755 /* libPods-JYVideoPicker.a */; };
 /* End PBXBuildFile section */
 
@@ -1292,6 +1293,8 @@
 		15AB4B5F224B2A3900D58D10 /* JYVideoEditVideoDeleteOrImportView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYVideoEditVideoDeleteOrImportView.m; sourceTree = "<group>"; };
 		15AB4B61224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYVideoEditCostuomBottomBarContainer.h; sourceTree = "<group>"; };
 		15AB4B62224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYVideoEditCostuomBottomBarContainer.m; sourceTree = "<group>"; };
+		15AB4B65224CA94300D58D10 /* JYSpeedSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYSpeedSlider.h; sourceTree = "<group>"; };
+		15AB4B66224CA94300D58D10 /* JYSpeedSlider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYSpeedSlider.m; sourceTree = "<group>"; };
 		5A9FB50C3A1681E99A1320F0 /* Pods-JYVideoPicker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JYVideoPicker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JYVideoPicker/Pods-JYVideoPicker.debug.xcconfig"; sourceTree = "<group>"; };
 		67C51D875E82009BF6599755 /* libPods-JYVideoPicker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JYVideoPicker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -2493,10 +2496,20 @@
 				15AB4B5C224A495400D58D10 /* JYVideoEditCustomCollectionView.m */,
 				15AB4B5E224B2A3900D58D10 /* JYVideoEditVideoDeleteOrImportView.h */,
 				15AB4B5F224B2A3900D58D10 /* JYVideoEditVideoDeleteOrImportView.m */,
-				15AB4B61224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.h */,
-				15AB4B62224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.m */,
+				15AB4B64224CA91C00D58D10 /* JYVideoEditCostuomBottomBarContainer */,
 			);
 			path = VideoEdit;
+			sourceTree = "<group>";
+		};
+		15AB4B64224CA91C00D58D10 /* JYVideoEditCostuomBottomBarContainer */ = {
+			isa = PBXGroup;
+			children = (
+				15AB4B61224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.h */,
+				15AB4B62224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.m */,
+				15AB4B65224CA94300D58D10 /* JYSpeedSlider.h */,
+				15AB4B66224CA94300D58D10 /* JYSpeedSlider.m */,
+			);
+			path = JYVideoEditCostuomBottomBarContainer;
 			sourceTree = "<group>";
 		};
 		58418F99E00E739478DFEF14 /* Pods */ = {
@@ -3085,6 +3098,7 @@
 				156E2F6E224229AD00C365A6 /* GPUImageWeakPixelInclusionFilter.m in Sources */,
 				156E2EEE224229AC00C365A6 /* GPUImageDilationFilter.m in Sources */,
 				156E2F872242555D00C365A6 /* JYCutPhotoViewController.m in Sources */,
+				15AB4B67224CA94300D58D10 /* JYSpeedSlider.m in Sources */,
 				156E2ED0224229AC00C365A6 /* GPUImageAlphaBlendFilter.m in Sources */,
 				156E2EEB224229AC00C365A6 /* GPUImageCrosshatchFilter.m in Sources */,
 				156E2EF2224229AC00C365A6 /* GPUImageDivideBlendFilter.m in Sources */,
