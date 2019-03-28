@@ -42,6 +42,7 @@
 #import "JYEditImageViewController.h"
 #import <CoreGraphics/CoreGraphics.h>
 #import "JYPhotoConfigModel.h"
+#import "JYVideoEditVC.h"
 
 #define VIDEO_FOLDER @"videoFolder"
 
@@ -528,9 +529,6 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
     myTimer = nil;
     HUD = [MBProgressHUD showHUDAddedTo:self animated:YES];
     HUD.label.text = @"视频生成中...";
-//    if (self.isFromAlbum) {
-        [urlArray addObject:[NSURL URLWithString:[NSString stringWithFormat:@"file://%@",pathToMovie]]];
-//    }
     NSString *path = [self getVideoMergeFilePathString];
     [self mergeAndExportVideos:urlArray withOutPath:path];
     
@@ -689,11 +687,7 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
                     }else
                     {
                         [HUD hideAnimated:YES];
-                        EditVideoViewController* view = [[EditVideoViewController alloc]init];
-                        view.width = _width;
-                        view.hight = _hight;
-                        view.bit = _bit;
-                        view.frameRate = _frameRate;
+                        JYVideoEditVC* view = [[JYVideoEditVC alloc]init];
                         [view.videoModelArray addObject: vModel];
                         [[NSNotificationCenter defaultCenter] removeObserver:self];
                         if (self.delegate&&[self.delegate respondsToSelector:@selector(pushCor:)]) {
@@ -725,23 +719,18 @@ typedef NS_ENUM(NSInteger, JYSourceType) {
         return;
     }
     [self.videoCamera stopCameraCapture];
-    EditVideoViewController* view = [[EditVideoViewController alloc]init];
-    view.width = _width;
-    view.hight = _hight;
-    view.bit = _bit;
-    view.frameRate = _frameRate;
-    NSMutableArray *array = [NSMutableArray new];
+    JYVideoEditVC* vc = [[JYVideoEditVC alloc]init];
+    
     for (int i=0; i<videosPathArray.count; i++) {
         HXPhotoModel *model = [HXPhotoModel photoModelWithVideoURL:videosPathArray[i]];
         VideoModel *vModel = [[VideoModel alloc]init];
         vModel.modelType = JYModelType_video;
         vModel.videoModel = model;
-        [array addObject:vModel];
+        [vc.videoModelArray addObject:vModel];
     }
-    [view.videoModelArray addObjectsFromArray:array];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     if (self.delegate&&[self.delegate respondsToSelector:@selector(pushCor:)]) {
-        [self.delegate pushCor:view];
+        [self.delegate pushCor:vc];
     }
     [self removeFromSuperview];
     

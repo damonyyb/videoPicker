@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "JYPointSideButton.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JYNavingationBar : UIView
+
+@property (nonatomic, strong) JYPointSideButton *backButton;
+@property (nonatomic, strong) UILabel *titleLab;
+@property (nonatomic, strong) JYPointSideButton *rightButton;
+
 //返回
 @property (nonatomic, copy) void (^backButtonBlock)(void);
 //右边button

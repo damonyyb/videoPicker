@@ -516,6 +516,10 @@
 		15AB4B502249C8B800D58D10 /* UIImage+JYRotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B4F2249C8B800D58D10 /* UIImage+JYRotate.m */; };
 		15AB4B532249CBBF00D58D10 /* UIImage+JYCropImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B522249CBBF00D58D10 /* UIImage+JYCropImage.m */; };
 		15AB4B562249FF0200D58D10 /* JYCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B552249FF0200D58D10 /* JYCircleView.m */; };
+		15AB4B5A224A333000D58D10 /* JYVideoEditVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B59224A333000D58D10 /* JYVideoEditVC.m */; };
+		15AB4B5D224A495400D58D10 /* JYVideoEditCustomCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B5C224A495400D58D10 /* JYVideoEditCustomCollectionView.m */; };
+		15AB4B60224B2A3900D58D10 /* JYVideoEditVideoDeleteOrImportView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B5F224B2A3900D58D10 /* JYVideoEditVideoDeleteOrImportView.m */; };
+		15AB4B63224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AB4B62224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.m */; };
 		E968A46C06AEEAC82FF96B35 /* libPods-JYVideoPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67C51D875E82009BF6599755 /* libPods-JYVideoPicker.a */; };
 /* End PBXBuildFile section */
 
@@ -1280,6 +1284,14 @@
 		15AB4B522249CBBF00D58D10 /* UIImage+JYCropImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JYCropImage.m"; sourceTree = "<group>"; };
 		15AB4B542249FF0200D58D10 /* JYCircleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYCircleView.h; sourceTree = "<group>"; };
 		15AB4B552249FF0200D58D10 /* JYCircleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYCircleView.m; sourceTree = "<group>"; };
+		15AB4B58224A333000D58D10 /* JYVideoEditVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYVideoEditVC.h; sourceTree = "<group>"; };
+		15AB4B59224A333000D58D10 /* JYVideoEditVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYVideoEditVC.m; sourceTree = "<group>"; };
+		15AB4B5B224A495400D58D10 /* JYVideoEditCustomCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYVideoEditCustomCollectionView.h; sourceTree = "<group>"; };
+		15AB4B5C224A495400D58D10 /* JYVideoEditCustomCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYVideoEditCustomCollectionView.m; sourceTree = "<group>"; };
+		15AB4B5E224B2A3900D58D10 /* JYVideoEditVideoDeleteOrImportView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYVideoEditVideoDeleteOrImportView.h; sourceTree = "<group>"; };
+		15AB4B5F224B2A3900D58D10 /* JYVideoEditVideoDeleteOrImportView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYVideoEditVideoDeleteOrImportView.m; sourceTree = "<group>"; };
+		15AB4B61224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JYVideoEditCostuomBottomBarContainer.h; sourceTree = "<group>"; };
+		15AB4B62224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JYVideoEditCostuomBottomBarContainer.m; sourceTree = "<group>"; };
 		5A9FB50C3A1681E99A1320F0 /* Pods-JYVideoPicker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JYVideoPicker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JYVideoPicker/Pods-JYVideoPicker.debug.xcconfig"; sourceTree = "<group>"; };
 		67C51D875E82009BF6599755 /* libPods-JYVideoPicker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JYVideoPicker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1538,8 +1550,8 @@
 			children = (
 				156E2AC6224229A300C365A6 /* EditVideoViewController.h */,
 				156E2AC7224229A300C365A6 /* EditVideoViewController.mm */,
+				15AB4B57224A32F400D58D10 /* VideoEdit */,
 				156E2F9222437C4500C365A6 /* ImageEdit */,
-				156E2F8822425BB600C365A6 /* ImageCut */,
 			);
 			path = MediaEdit;
 			sourceTree = "<group>";
@@ -2448,6 +2460,7 @@
 		156E2F9222437C4500C365A6 /* ImageEdit */ = {
 			isa = PBXGroup;
 			children = (
+				156E2F8822425BB600C365A6 /* ImageCut */,
 				156E2F9322437C8100C365A6 /* JYEditImageViewController.h */,
 				156E2F9422437C8100C365A6 /* JYEditImageViewController.m */,
 				156E2F962243839F00C365A6 /* JYPhotoBeautyBottomView.h */,
@@ -2469,6 +2482,21 @@
 				156E2F9D2243868200C365A6 /* UIButton+JYCustomLayout.m */,
 			);
 			path = UIButton;
+			sourceTree = "<group>";
+		};
+		15AB4B57224A32F400D58D10 /* VideoEdit */ = {
+			isa = PBXGroup;
+			children = (
+				15AB4B58224A333000D58D10 /* JYVideoEditVC.h */,
+				15AB4B59224A333000D58D10 /* JYVideoEditVC.m */,
+				15AB4B5B224A495400D58D10 /* JYVideoEditCustomCollectionView.h */,
+				15AB4B5C224A495400D58D10 /* JYVideoEditCustomCollectionView.m */,
+				15AB4B5E224B2A3900D58D10 /* JYVideoEditVideoDeleteOrImportView.h */,
+				15AB4B5F224B2A3900D58D10 /* JYVideoEditVideoDeleteOrImportView.m */,
+				15AB4B61224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.h */,
+				15AB4B62224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.m */,
+			);
+			path = VideoEdit;
 			sourceTree = "<group>";
 		};
 		58418F99E00E739478DFEF14 /* Pods */ = {
@@ -2888,6 +2916,7 @@
 				156E2D92224229AC00C365A6 /* ZFPlayerControlView.m in Sources */,
 				156E2D88224229AC00C365A6 /* UIAlertController+ZFPlayerRotation.m in Sources */,
 				156E2F62224229AD00C365A6 /* GPUImageToneCurveFilter.m in Sources */,
+				15AB4B63224B8B3A00D58D10 /* JYVideoEditCostuomBottomBarContainer.m in Sources */,
 				156E2F1A224229AC00C365A6 /* GPUImageLightenBlendFilter.m in Sources */,
 				156E2F2F224229AC00C365A6 /* GPUImageNonMaximumSuppressionFilter.m in Sources */,
 				156E2D86224229AC00C365A6 /* ASValuePopUpView.m in Sources */,
@@ -2905,6 +2934,7 @@
 				156E2EF7224229AC00C365A6 /* GPUImageFalseColorFilter.m in Sources */,
 				156E2F17224229AC00C365A6 /* GPUImageLanczosResamplingFilter.m in Sources */,
 				156E2F47224229AD00C365A6 /* GPUImageSaturationFilter.m in Sources */,
+				15AB4B5A224A333000D58D10 /* JYVideoEditVC.m in Sources */,
 				156E2F50224229AD00C365A6 /* GPUImageSobelEdgeDetectionFilter.m in Sources */,
 				156E2F32224229AC00C365A6 /* GPUImageOpeningFilter.m in Sources */,
 				156E2D8E224229AC00C365A6 /* UIWindow+CurrentViewController.m in Sources */,
@@ -2919,6 +2949,7 @@
 				156E2DC6224229AC00C365A6 /* JYVideoCameraBotomBarView.m in Sources */,
 				156E2F46224229AC00C365A6 /* GPUImageSaturationBlendFilter.m in Sources */,
 				156E2F30224229AC00C365A6 /* GPUImageNormalBlendFilter.m in Sources */,
+				15AB4B60224B2A3900D58D10 /* JYVideoEditVideoDeleteOrImportView.m in Sources */,
 				156E2DCC224229AC00C365A6 /* JYVideoPasterView.m in Sources */,
 				156E2F48224229AD00C365A6 /* GPUImageScreenBlendFilter.m in Sources */,
 				156E2F11224229AC00C365A6 /* GPUImageHueBlendFilter.m in Sources */,
@@ -2934,6 +2965,7 @@
 				156E2ED5224229AC00C365A6 /* GPUImageBoxBlurFilter.m in Sources */,
 				15AB4B4A2248C23100D58D10 /* JYImageCollectionView.m in Sources */,
 				156E2F13224229AC00C365A6 /* GPUImageiOSBlurFilter.m in Sources */,
+				15AB4B5D224A495400D58D10 /* JYVideoEditCustomCollectionView.m in Sources */,
 				156E2F1F224229AC00C365A6 /* GPUImageLowPassFilter.m in Sources */,
 				156E2F19224229AC00C365A6 /* GPUImageLevelsFilter.m in Sources */,
 				156E2F28224229AC00C365A6 /* GPUImageMosaicFilter.m in Sources */,

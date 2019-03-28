@@ -23,11 +23,9 @@
 #import "HXPhotoTools.h"
 #import "FSKGPUImageBeautyFilter.h"
 
-#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
+
 #define SCREEN_LayoutScaleBaseOnIPHEN6(x) (([UIScreen mainScreen].bounds.size.width)/375.00 * x)
-///弱引用
-#define kWeakSelf __weak typeof(self) weakSelf = self;
+
 @interface MusicData : NSObject
 
 @property (nonatomic,strong) NSString* name;
@@ -1546,6 +1544,8 @@ typedef NS_ENUM(NSUInteger , choseType)
     [mainPlayer seekToTime:time toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
     
 }
+#pragma mark -- 裁剪视频
+
 - (void)cutvideoBtnClicked
 {
     kWeakSelf;

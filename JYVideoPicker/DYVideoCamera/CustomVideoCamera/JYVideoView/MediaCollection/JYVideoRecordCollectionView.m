@@ -7,7 +7,6 @@
 //
 
 #import "JYVideoRecordCollectionView.h"
-#import "Masonry.h"
 #import "VideoManager.h"
 static NSString *cellID = @"cellID";
 #define itemWidth [UIScreen mainScreen].bounds.size.width*45/375

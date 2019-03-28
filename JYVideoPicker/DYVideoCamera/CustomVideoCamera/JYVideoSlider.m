@@ -84,6 +84,7 @@
         
         UIImage *videoScreen = [[UIImage alloc] initWithCGImage:halfWayImage scale:1.0 orientation:UIImageOrientationUp];
         UIImageView *tmp = [[UIImageView alloc] initWithImage:videoScreen];
+        tmp.layer.masksToBounds = YES;
         tmp.contentMode = UIViewContentModeScaleAspectFill;
         tmp.frame = CGRectMake(self.bounds.size.width/2 + i*picWidth, 0, picWidth, self.bounds.size.height);
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -97,8 +98,8 @@
 {
     if (!_centerLineView) {
         //拖拽视图
-        _centerLineView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1, self.frame.size.height)];
-        _centerLineView.backgroundColor = [UIColor yellowColor];
+        _centerLineView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -2, 1, self.frame.size.height+4)];
+        _centerLineView.backgroundColor = [UIColor redColor];
         _centerLineView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
     }
     return _centerLineView;

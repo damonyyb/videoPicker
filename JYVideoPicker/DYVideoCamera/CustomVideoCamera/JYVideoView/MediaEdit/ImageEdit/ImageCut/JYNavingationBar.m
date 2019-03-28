@@ -12,10 +12,6 @@
 
 @interface JYNavingationBar ()
 
-@property (nonatomic, strong) UIButton *backButton;
-@property (nonatomic, strong) UILabel *titleLab;
-@property (nonatomic, strong) UIButton *rightButton;
-
 
 @end
 
@@ -36,7 +32,7 @@
     [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.height.mas_equalTo(25);
         make.centerY.mas_equalTo(0);
-        make.left.mas_equalTo(20);
+        make.left.mas_equalTo(10);
     }];
     //右变按钮
     [self.rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -85,10 +81,10 @@
     }
     return _titleLab;
 }
-- (UIButton*)backButton
+- (JYPointSideButton*)backButton
 {
     if (!_backButton) {
-        _backButton = [UIButton new];
+        _backButton = [JYPointSideButton new];
         [self addSubview:_backButton];
         [_backButton setImage:[UIImage imageNamed:@"backPhoto"] forState:UIControlStateNormal];
         [_backButton addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -96,10 +92,10 @@
     
     return _backButton;
 }
-- (UIButton*)rightButton
+- (JYPointSideButton*)rightButton
 {
     if (!_rightButton) {
-        _rightButton = [UIButton new];
+        _rightButton = [JYPointSideButton new];
         [self addSubview:_rightButton];
         [_rightButton setTitle:@"下一张" forState:UIControlStateNormal];
         [_rightButton.titleLabel setFont:[UIFont systemFontOfSize:12]];
